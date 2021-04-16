@@ -1,0 +1,72 @@
+#include "figure_triangle.h"
+
+void figure_triangle::coordinates_calculate(void) {
+	int delta_x_calculation = delta_x + 1, delta_y_calculation = delta_y + 1;
+	array_x_move[0] = array_x[0] = delta_x_calculation + rand() % (180 - delta_x_calculation);//height-20
+	array_y_move[0] = array_y[0] = delta_y_calculation + rand() % (120 - delta_y_calculation);//width-20
+	array_x_move[1] = array_x[1] = array_x[0] + delta_x;
+	array_x_move[2] = array_x[2] = array_x[0] - delta_x;
+	array_y_move[1] = array_y[1] = array_y[0] + delta_y;
+	array_y_move[2] = array_y[2] = array_y[1];
+}
+
+figure_triangle::figure_triangle(int* my_color, bool clar, bool paint) {
+	for (int i = 0; i < 3; i++) {
+		figure_color[i] = my_color[i];
+	}
+	figure_clarity = clar;
+	initialization_array();
+	kind_of_figure = triangle;//?
+	figure_fill = paint;
+}
+
+figure_triangle::figure_triangle(void) {
+	initialization_array();
+	kind_of_figure = triangle;
+	figure_fill = true;
+}
+
+
+void figure_triangle::figure_draw(void) {
+	if (need_of_calculation) {
+		coordinates_calculate();
+		need_of_calculation = false;
+	}
+
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLineWidth(3);//толщина линии
+	if (need_to_select) {
+		glColor3ub(figure_color_select[0], figure_color_select[1], figure_color_select[2]);
+	}
+	else {
+		glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
+	}
+	if (figure_fill) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	else {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < quantity_of_point; i++) {
+		glVertex2d(array_x_move[i], array_y_move[i]);
+	}
+	glEnd();
+	//glutSwapBuffers();
+}
+
+void figure_triangle::figure_move(int x, int y) {
+	for (int i = 0; i < quantity_of_point; i++) {
+		array_x_move[i] += x;
+		array_y_move[i] += y;
+	}
+}
+
+void figure_triangle::initialization_array(void) {
+	for (int i = 0; i < quantity_of_point; i++) {
+		array_x[i] = 0;
+		array_y[i] = 0;
+		array_x_move[i] = 0;
+		array_y_move[i] = 0;
+	}
+}
