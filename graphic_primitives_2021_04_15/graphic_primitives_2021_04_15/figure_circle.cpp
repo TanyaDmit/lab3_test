@@ -34,7 +34,7 @@ figure_circle::figure_circle(int* my_color, bool clar, bool paint) {
 
 figure_circle::figure_circle(void) {
 	initialization_array();
-	kind_of_figure = circle;
+	//kind_of_figure = circle;
 }
 
 
@@ -97,6 +97,11 @@ void figure_circle::initialization_array(void) {
 void figure_circle::figure_position(int& x, int& y) {
 		x = array_x_move[0];
 		y = array_y_move[0];
+}
+
+void figure_circle::figure_position_for_track(int& x, int& y) {
+	x = array_x_move[1];
+	y = array_y_move[1];
 }
 
 void figure_circle::active_figure_paint(int num_color) {

@@ -12,6 +12,7 @@ public:
 	virtual void figure_move(int x, int y);
 	void activ_selected(bool);
 	virtual void figure_position(int&, int&);
+	virtual void figure_position_for_track(int&, int&);
 	figure(void);
 	virtual void active_figure_paint(int);
 	virtual void active_figure_fill(int);

@@ -14,6 +14,8 @@ void figure::initialization_array(void){}
 
 void figure::figure_position(int&, int&) {}
 
+void figure::figure_position_for_track(int&, int&) {}
+
 void figure::active_figure_paint(int) {}
 
 void figure::active_figure_fill(int) {}

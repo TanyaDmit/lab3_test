@@ -12,6 +12,7 @@
 #include "figure_square.h"
 #include "class_for_color.h"
 #include "figure_check_mark.h"
+#include "figure_point.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ const int height_Win = 700;
 
 int selector_figure_from_keyboard = -1;//для мерцания и галочки
 int selector_figure_active_now = 0;//для мерцания и галочки активная фигура
+int counter_for_move = 0, max_quantity_move = 7, x, y;//для движения
 
 int number_first_empty = 0;
 figure* arr_fig[figure::general_quantity_of_figure];
@@ -31,7 +33,8 @@ void keyboard(unsigned char key, int x, int y);
 void special_key(int s_key, int y, int z);
 
 //для таймеров
-void update(int value);
+void move_without_track(int value);
+void move_with_track(int value);
 void select(int value);
 //void clarity(int value);
 
@@ -76,6 +79,7 @@ int main(int argc, char* argv[])
 	glClear(GL_COLOR_BUFFER_BIT);
 	{
 		arr_fig[9] = new figure_check_mark;
+		arr_fig[8] = new figure_point;
 		arr_fig[1] = new figure_circle;
 		arr_fig[2] = new figure_star;
 		arr_fig[3] = new figure_triangle;
@@ -129,11 +133,9 @@ void general_draw(void) {
 	glutSwapBuffers();
 }
 
-int i = 0, quantity = 5, x, y;
-
-void update(int value) {
+void move_without_track(int value) {
 	
-	 if (i != quantity) {
+	 if (counter_for_move != max_quantity_move) {
 		 x = -5 + rand() % 5;
 		 y = -2 + rand() % 5;
 		 arr_fig[selector_figure_active_now]->figure_move(x, y);
@@ -143,19 +145,43 @@ void update(int value) {
 		 y += y_p;
 		 arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
 		 glutPostRedisplay();
-		 glutTimerFunc(1000, update, 0);
-		 i++;
+		 glutTimerFunc(1000, move_without_track, 0);
+		 counter_for_move++;
 	 }
 	 
+}
+
+void move_with_track(int value) {
+	if (counter_for_move != max_quantity_move) {
+		x = -5 + rand() % 5;
+		y = -2 + rand() % 5;
+		arr_fig[selector_figure_active_now]->figure_move(x, y);
+		int x_p = 0, y_p = 0; 
+		int x_p_for_track = 0, y_p_for_track = 0;
+		arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);
+		arr_fig[selector_figure_active_now]->figure_position_for_track(x_p_for_track, y_p_for_track);
+		x += x_p;
+		y += y_p;
+		arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);		
+		arr_fig[(figure::general_quantity_of_figure - 2)]->figure_move(x_p_for_track, y_p_for_track);
+		glutPostRedisplay();
+		glutTimerFunc(1000, move_with_track, 0);
+		counter_for_move++;
+	}
 }
 
 void special_key(int s_key, int y, int z){
 	switch (s_key) {
 	case GLUT_KEY_F2:
-		i = 0;
-		glutTimerFunc(1000, update, 0);
+		counter_for_move = 0;
+		glutTimerFunc(1000, move_without_track, 0);
+		break;
+	case GLUT_KEY_F3:
+		counter_for_move = 0;
+		glutTimerFunc(1000, move_with_track, 0);
 		break;
 	}
+
 }
 
 void select(int value) {//вызов видимости
@@ -183,7 +209,6 @@ void keyboard(unsigned char key, int x, int y)
 	if (key == ' ') {
 		selector_figure_from_keyboard = search_number_first_filled(selector_figure_from_keyboard);
 		selector_figure_active_now = search_number_first_filled(selector_figure_active_now);
-		cout << selector_figure_from_keyboard << " " << selector_figure_active_now << endl;
 		if ((selector_figure_active_now >= 0) && (selector_figure_active_now == selector_figure_from_keyboard)) {
 			//arr_fig[selector]->my_clarity(false);
 			int x_p = 0, y_p = 0;
@@ -199,7 +224,7 @@ void keyboard(unsigned char key, int x, int y)
 }
 
 void search_number_first_empty(void) {
-	for (int i = 0; i < (figure::general_quantity_of_figure - 1); i++) {
+	for (int i = 0; i < (figure::general_quantity_of_figure - 2); i++) {
 		if (arr_fig[i] == NULL) {
 			number_first_empty = i;
 			return;
@@ -210,9 +235,9 @@ void search_number_first_empty(void) {
 
 int search_number_first_filled(int start) {
 
-	for (int i = 0; i < (figure::general_quantity_of_figure - 1); i++) {
+	for (int i = 0; i < (figure::general_quantity_of_figure - 2); i++) {
 		start++;
-		if (start >= (figure::general_quantity_of_figure - 1)) {
+		if (start >= (figure::general_quantity_of_figure - 2)) {
 			start = 0;
 		}
 		if (arr_fig[start] != NULL) {

@@ -16,7 +16,7 @@ figure_triangle::figure_triangle(int* my_color, bool clar, bool paint) {
 	}
 	figure_clarity = clar;
 	initialization_array();
-	kind_of_figure = triangle;//?
+	//kind_of_figure = triangle;//?
 	figure_fill = paint;
 }
 
@@ -82,6 +82,11 @@ void figure_triangle::figure_position(int& x, int& y) {
 	}
 	x = x / quantity_of_point;
 	y = y / quantity_of_point;
+}
+
+void figure_triangle::figure_position_for_track(int& x, int& y) {
+	x = array_x_move[1];
+	y = array_y_move[1];
 }
 
 void figure_triangle::active_figure_paint(int num_color) {

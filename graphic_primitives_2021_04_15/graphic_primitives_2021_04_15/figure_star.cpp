@@ -32,8 +32,7 @@ figure_star::figure_star(int* my_color, bool clar, bool paint) {
 	}
 	figure_clarity = clar;
 	initialization_array();
-	kind_of_figure = star;
-	//kind_of_figure = my_type;//? я же выбрала класс звезду, зачем еще уточнять тип
+	//kind_of_figure = star;
 	figure_fill = paint;
 }
 
@@ -99,6 +98,11 @@ void figure_star::initialization_array(void) {
 void figure_star::figure_position(int& x, int& y) {
 		x = array_x_move[0];
 		y = array_y_move[0];
+}
+
+void figure_star::figure_position_for_track(int& x, int& y) {
+	x = array_x_move[1];
+	y = array_y_move[1];
 }
 
 void figure_star::active_figure_paint(int num_color) {

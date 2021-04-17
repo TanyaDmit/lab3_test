@@ -77,6 +77,11 @@ void figure_line::figure_position(int& x, int& y) {
 	y = y / quantity_of_point;
 }
 
+void figure_line::figure_position_for_track(int& x, int& y) {
+	x = array_x_move[1];
+	y = array_y_move[1];
+}
+
 void figure_line::active_figure_paint(int num_color) {
 	int byte = 16;
 	for (int i = 0; i < 3; i++) {
