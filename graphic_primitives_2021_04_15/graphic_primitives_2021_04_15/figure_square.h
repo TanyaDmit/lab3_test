@@ -15,6 +15,7 @@ public:
 	figure_square(int*, bool, bool);
 	figure_square(void);
 	void figure_draw(void);
-	void figure_move(int x, int y);
+	void figure_move(int, int);
+	void figure_position(int&, int&);
 };
 

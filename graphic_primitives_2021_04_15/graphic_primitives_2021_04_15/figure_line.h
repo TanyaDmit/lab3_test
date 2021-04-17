@@ -8,13 +8,14 @@ private:
 	int array_y[quantity_of_point];
 	int array_x_move[quantity_of_point];
 	int array_y_move[quantity_of_point];
-	int delta_x = 10, delta_y = 15;
+	int delta_x = 10, delta_y = 20;
 	void initialization_array(void);
 	void coordinates_calculate(void);
 public:
 	figure_line(int*, bool);
 	figure_line(void);
 	void figure_draw(void);
-	void figure_move(int x, int y);
+	void figure_move(int, int);
+	void figure_position(int&, int&);
 };
 

@@ -20,5 +20,6 @@ public:
 	figure_circle(void);
 	void figure_draw(void);
 	void figure_move(int, int);
+	void figure_position(int&, int&);
 };
 

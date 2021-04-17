@@ -19,5 +19,6 @@ public:
 	figure_star(void);
 	void figure_draw(void);
 	void figure_move(int, int);
+	void figure_position(int&, int&);
 };
 

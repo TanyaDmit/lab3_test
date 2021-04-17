@@ -18,7 +18,6 @@ figure_line::figure_line(int* my_color, bool clar) {
 }
 
 figure_line::figure_line(void) {
-	figure_clarity = false;
 	initialization_array();
 	kind_of_figure = line;
 
@@ -32,15 +31,24 @@ void figure_line::figure_draw(void) {
 	}
 
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLineWidth(5);
-	glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
-	glBegin(GL_LINES);
-	for (int i = 0; i < quantity_of_point; i++) {
-		glVertex2d(array_x_move[i], array_y_move[i]);
+	if (!figure_clarity) {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
 	}
+	else {
+		glLineWidth(5);//толщина линии
+		glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
 
+		glBegin(GL_LINES);
+		for (int i = 0; i < quantity_of_point; i++) {
+			glVertex2d(array_x_move[i], array_y_move[i]);
+		}
 
-	glEnd();
+		glEnd();
+	}
+	if (!figure_clarity) {
+		glDisable(GL_BLEND);
+	}
 	//glutSwapBuffers();
 }
 
@@ -59,4 +67,9 @@ void figure_line::initialization_array(void) {
 		array_x_move[i] = 0;
 		array_y_move[i] = 0;
 	}
+}
+
+void figure_line::figure_position(int& x, int& y) {
+	x = array_x_move[1];
+	y = array_y_move[1];
 }

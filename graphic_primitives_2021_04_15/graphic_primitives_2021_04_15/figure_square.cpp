@@ -18,15 +18,13 @@ figure_square::figure_square(int* my_color, bool clar, bool paint) {
 	}
 	figure_clarity = clar;
 	initialization_array();
-	kind_of_figure = line;//?
+	kind_of_figure = square;//?
 	figure_fill = paint;
 }
 
 figure_square::figure_square(void) {
-	figure_clarity = false;
 	initialization_array();
-	kind_of_figure = line;
-	figure_fill = true;
+	kind_of_figure = square;
 
 }
 
@@ -38,24 +36,30 @@ void figure_square::figure_draw(void) {
 	}
 
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLineWidth(3);//толщина линии
-	if (need_to_select) {
-		glColor3ub(figure_color_select[0], figure_color_select[1], figure_color_select[2]);
+	if (!figure_clarity) {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
 	}
 	else {
+		glLineWidth(3);//толщина линии
 		glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
+
+		if (figure_fill) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+		else {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		glBegin(GL_QUADS);
+		for (int i = 0; i < quantity_of_point; i++) {
+			glVertex2d(array_x_move[i], array_y_move[i]);
+		}
+		glEnd();
 	}
-	if (figure_fill) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	if (!figure_clarity) {
+		glDisable(GL_BLEND);
 	}
-	else {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-	glBegin(GL_QUADS);
-	for (int i = 0; i < quantity_of_point; i++) {
-		glVertex2d(array_x_move[i], array_y_move[i]);
-	}
-	glEnd();
+
 	//glutSwapBuffers();
 }
 
@@ -74,4 +78,9 @@ void figure_square::initialization_array(void) {
 		array_x_move[i] = 0;
 		array_y_move[i] = 0;
 	}
+}
+
+void figure_square::figure_position(int& x, int& y) {
+	x = array_x_move[1];
+	y = array_y_move[1];
 }

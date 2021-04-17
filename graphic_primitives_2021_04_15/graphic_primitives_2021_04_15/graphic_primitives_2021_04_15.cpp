@@ -10,6 +10,8 @@
 #include "figure_triangle.h"
 #include "figure_line.h"
 #include "figure_square.h"
+#include "class_for_color.h"
+#include "figure_check_mark.h"
 
 using namespace std;
 
@@ -54,7 +56,8 @@ int main(int argc, char* argv[])
     arr_fig[4] = &line_1;
     figure_square square_1;
     arr_fig[5] = &square_1;
-
+    figure_check_mark m_1;
+    arr_fig[6] = &m_1;
     // #2: Регистрация функций-обработчиков событий
     glutReshapeFunc(reshape);
 
@@ -84,7 +87,7 @@ void reshape(int width, int height)
 
 void general_draw(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//буфера цвета и глубины
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 7; i++) {
         arr_fig[i]->figure_draw();
     }
     glutSwapBuffers();

@@ -18,7 +18,7 @@ void figure_circle::coordinates_calculate(void) {
 			array_x_move[i + 1] = array_x[i + 1] = array_x[0] + dx;
 			array_y_move[i + 1] = array_y[i + 1] = array_y[0] + dy;
 		}
-		
+
 
 	}
 }
@@ -35,7 +35,7 @@ figure_circle::figure_circle(int* my_color, bool clar, bool paint, kind_of_figur
 }
 
 figure_circle::figure_circle(void) {
-	
+
 	initialization_array();
 	kind_of_figure = circle;
 	figure_fill = true;
@@ -49,34 +49,36 @@ void figure_circle::figure_draw(void) {
 	}
 
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLineWidth(3);
-	if (need_to_select) {
-		glColor3ub(figure_color_select[0], figure_color_select[1], figure_color_select[2]);
+	if (!figure_clarity) {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
 	}
 	else {
+		glLineWidth(3);//толщина линии
 		glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
-	}
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	if (figure_fill) {
-		glEnable(GL_LINE_SMOOTH);//для сглаживания, но оно не работает
-		glBegin(GL_TRIANGLE_FAN);
-		for (int i = 0; i < quantity_of_point; i++) {
-			glVertex2d(array_x_move[i], array_y_move[i]);
+		if (figure_fill) {
+			glEnable(GL_LINE_SMOOTH);//для сглаживания, но оно не работает
+			glBegin(GL_TRIANGLE_FAN);
+			for (int i = 0; i < quantity_of_point; i++) {
+				glVertex2d(array_x_move[i], array_y_move[i]);
+			}
+			glVertex2d(array_x_move[1], array_y_move[1]);
+			glEnd();
+			glDisable(GL_LINE_SMOOTH);//аналогично, либо я просто не вижу
 		}
-		glVertex2d(array_x_move[1], array_y_move[1]);
-		glEnd();
-		glDisable(GL_LINE_SMOOTH);//аналогично, либо я просто не вижу
-	}
-	else {
-		glBegin(GL_LINE_LOOP);
-		for (int i = 1; i < quantity_of_point; i++) {
-			glVertex2d(array_x_move[i], array_y_move[i]);
+		else {
+			glBegin(GL_LINE_LOOP);
+			for (int i = 1; i < quantity_of_point; i++) {
+				glVertex2d(array_x_move[i], array_y_move[i]);
+			}
 		}
 		glEnd();
-
-
+		if (!figure_clarity) {
+			glDisable(GL_BLEND);
+		}
 	}
 }
 
@@ -94,4 +96,9 @@ void figure_circle::initialization_array(void) {
 		array_x_move[i] = 0;
 		array_y_move[i] = 0;
 	}
+}
+
+void figure_circle::figure_position(int& x, int& y) {
+	x = array_x_move[1];
+	y = array_y_move[1];
 }
