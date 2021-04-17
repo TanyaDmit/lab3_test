@@ -24,9 +24,7 @@ void figure_check_mark::initialization_array(void) {
 figure_check_mark::figure_check_mark(void) {
 	initialization_array();
 	kind_of_figure = check_mark;
-
 }
-
 
 void figure_check_mark::figure_draw(void) {
 	if (need_of_calculation) {//false

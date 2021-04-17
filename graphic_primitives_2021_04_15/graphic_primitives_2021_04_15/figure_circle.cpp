@@ -31,14 +31,12 @@ figure_circle::figure_circle(int* my_color, bool clar, bool paint, kind_of_figur
 	initialization_array();
 	kind_of_figure = my_type;
 	figure_fill = paint;
-
 }
 
 figure_circle::figure_circle(void) {
 
 	initialization_array();
 	kind_of_figure = circle;
-	figure_fill = true;
 }
 
 
@@ -47,7 +45,6 @@ void figure_circle::figure_draw(void) {
 		coordinates_calculate();
 		need_of_calculation = false;
 	}
-
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (!figure_clarity) {
 		glEnable(GL_BLEND);
@@ -62,6 +59,7 @@ void figure_circle::figure_draw(void) {
 		if (figure_fill) {
 			glEnable(GL_LINE_SMOOTH);//для сглаживания, но оно не работает
 			glBegin(GL_TRIANGLE_FAN);
+			cout << " circle" << endl;
 			for (int i = 0; i < quantity_of_point; i++) {
 				glVertex2d(array_x_move[i], array_y_move[i]);
 			}

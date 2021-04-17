@@ -12,7 +12,6 @@ private:
 	float array_x_move[quantity_of_point];
 	float array_y_move[quantity_of_point];
 	float radius = 10;
-	bool figure_fill;
 	void coordinates_calculate(void);
 	void initialization_array(void);
 public:

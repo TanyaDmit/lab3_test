@@ -14,15 +14,13 @@ figure_line::figure_line(int* my_color, bool clar) {
 	}
 	figure_clarity = clar;
 	initialization_array();
-	kind_of_figure = line;//?
+	//kind_of_figure = line;//?
 }
 
 figure_line::figure_line(void) {
 	initialization_array();
 	kind_of_figure = line;
-
 }
-
 
 void figure_line::figure_draw(void) {
 	if (need_of_calculation) {

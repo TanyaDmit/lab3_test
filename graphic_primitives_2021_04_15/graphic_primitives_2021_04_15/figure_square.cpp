@@ -25,7 +25,6 @@ figure_square::figure_square(int* my_color, bool clar, bool paint) {
 figure_square::figure_square(void) {
 	initialization_array();
 	kind_of_figure = square;
-
 }
 
 

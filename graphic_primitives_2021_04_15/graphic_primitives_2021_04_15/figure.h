@@ -12,10 +12,10 @@ public:
 	virtual void figure_move(int x, int y);
 	void activ_selected(bool);
 	virtual void figure_position(int&, int&);
-
-protected:
 	figure(void);
-
+	//void figure_fill(void);
+protected:
+	
 	bool figure_clarity;
 	bool need_of_calculation;
 	bool need_to_select;

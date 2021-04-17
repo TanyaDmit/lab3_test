@@ -23,9 +23,7 @@ figure_triangle::figure_triangle(int* my_color, bool clar, bool paint) {
 figure_triangle::figure_triangle(void) {
 	initialization_array();
 	kind_of_figure = triangle;
-	figure_fill = true;
 }
-
 
 void figure_triangle::figure_draw(void) {
 	if (need_of_calculation) {

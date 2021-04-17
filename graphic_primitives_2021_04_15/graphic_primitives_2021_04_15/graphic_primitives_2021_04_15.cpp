@@ -21,7 +21,6 @@ const int height_Win = 700;
 int selector_figure_from_keyboard = -1;//для мерцания и галочки
 int selector_figure_active_now = 0;//для мерцания и галочки
 
-
 int number_first_empty = 0;
 figure* arr_fig[figure::general_quantity_of_figure];
 
@@ -56,14 +55,12 @@ enum {
 };
 enum { select_fill, select_empty, select_view, select_hidden };
 
-
-
-
 int main(int argc, char* argv[])
 {
     cout << "Hello World!\n";
     for (int i = 0; i < figure::general_quantity_of_figure; i++) {
         arr_fig[i] = NULL;
+
     }
     // #1: Инициализация и создание окна GLUT
     glutInit(&argc, argv);//инициализация GLUT
@@ -75,27 +72,15 @@ int main(int argc, char* argv[])
     glutInitWindowSize(height_Win, width_Win);//размеры окна
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
-
-
-    figure_check_mark m_1;
-    
-    figure* point;
-    point = &m_1;
-    arr_fig[9] = point;
-    figure_circle circle_2;
-    point = &circle_2;
-    arr_fig[1] = point;
-    figure_star star_1;
-    point = &star_1;
-    arr_fig[2] = point;
-    figure_triangle triangle_1;
-    arr_fig[3] = &triangle_1;
-    figure_line line_1;
-    arr_fig[4] = &line_1;
-    figure_square square_1;
-    arr_fig[5] = &square_1;
-    figure_circle circle_1;
-    arr_fig[6] = &circle_1;
+    {
+        arr_fig[9] = new figure_check_mark;
+        arr_fig[1] = new figure_circle;
+        arr_fig[2] = new figure_star;
+        arr_fig[3] = new figure_triangle;
+        arr_fig[4] = new figure_star;
+        arr_fig[5] = new figure_square;
+        arr_fig[6] = new figure_circle;
+    }
     // #2: Регистрация функций-обработчиков событий
     glutReshapeFunc(reshape);
 
@@ -133,7 +118,7 @@ void reshape(int width, int height)
 void general_draw(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//буфера цвета и глубины
     for (int i = 0; i < figure::general_quantity_of_figure; i++) {
-        if (arr_fig[i] != NULL) {
+        if (arr_fig[i]!= NULL) {
             arr_fig[i]->figure_draw();
         }
     }
@@ -189,7 +174,6 @@ void keyboard(unsigned char key, int x, int y)
             //arr_fig[selector]->my_clarity(false);
             int x_p = 0, y_p = 0;
             arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);//выбранный
-            cout << x_p << " " << y_p << endl;
             arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x_p, y_p);
         }
         else {//галочку надо спрятать и по умолчанию она спрятана
@@ -272,38 +256,26 @@ void type_of_figure_func(int value) {
     search_number_first_empty();
     if (number_first_empty >= 0) {
         switch (value) {
-        case select_circle: {
-            figure_circle tmp;
-            arr_fig[number_first_empty] = &tmp;
-            cout << " i am " << number_first_empty << endl;
+        case select_circle: 
+            arr_fig[number_first_empty] = new figure_circle;
             break;
-        }
 
-
-        case select_line: {
-
-            figure_line tmp;
-            arr_fig[number_first_empty] = &tmp;
+        case select_line: 
+            arr_fig[number_first_empty] = new figure_line;
             break;
-        }
-        case select_star: {
-            figure_star tmp;
-            arr_fig[number_first_empty] = &tmp;
+        
+        case select_star:
+            arr_fig[number_first_empty] = new figure_star;
             break;
-        }
-
-
-        case select_triangle: {
-            figure_triangle tmp;
-            arr_fig[number_first_empty] = &tmp;
+        
+        case select_triangle: 
+            arr_fig[number_first_empty] = new figure_triangle;
             break;
-        }
 
-        case select_square: {
-            figure_square tmp;
-            arr_fig[number_first_empty] = &tmp;
+        case select_square: 
+            arr_fig[number_first_empty] = new figure_square;
             break;
-        }
+        
         default:
             cout << "live is pain" << endl;
             break;
@@ -363,7 +335,7 @@ void color_of_figure_func(int value) {
 void fill_of_figure_func(int value) {
     switch (value) {
     case select_fill:
-        cout << "buttom 2.2 - is good" << endl;
+        //arr_fig[selector_figure_active_now]->figure_fill();
         break;
 
     case select_empty:
