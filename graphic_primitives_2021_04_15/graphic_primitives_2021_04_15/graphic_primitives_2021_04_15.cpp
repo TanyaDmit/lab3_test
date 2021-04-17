@@ -21,7 +21,7 @@ const int height_Win = 700;
 
 int selector_figure_from_keyboard = -1;//для мерцания и галочки
 int selector_figure_active_now = 0;//для мерцания и галочки активная фигура
-int counter_for_move = 0, max_quantity_move = 7, x, y;//для движения
+int counter_for_move = 0, max_quantity_move = 7;//для движения
 
 int number_first_empty = 0;
 figure* arr_fig[figure::general_quantity_of_figure];
@@ -30,7 +30,7 @@ figure* arr_fig[figure::general_quantity_of_figure];
 void reshape(int width, int height);
 void general_draw(void);
 void keyboard(unsigned char key, int x, int y);
-void special_key(int s_key, int y, int z);
+void special_key(int s_key, int m, int z);
 
 //для таймеров
 void move_without_track(int value);
@@ -42,6 +42,7 @@ void select(int value);
 void search_number_first_empty(void);
 int search_number_first_filled(int start);
 void start_filled_figure(void);
+void move_with_special_key(int x, int y);//для движения стрелками
 
 //для меню
 int type_of_figure, color_of_figure, fill_of_figure, clarity_of_figure, call_of_figure;
@@ -134,7 +135,7 @@ void general_draw(void) {
 }
 
 void move_without_track(int value) {
-	
+	int x = 0, y = 0;
 	 if (counter_for_move != max_quantity_move) {
 		 x = -5 + rand() % 5;
 		 y = -2 + rand() % 5;
@@ -152,6 +153,7 @@ void move_without_track(int value) {
 }
 
 void move_with_track(int value) {
+	int x = 0, y = 0;
 	if (counter_for_move != max_quantity_move) {
 		x = -5 + rand() % 5;
 		y = -2 + rand() % 5;
@@ -170,7 +172,19 @@ void move_with_track(int value) {
 	}
 }
 
-void special_key(int s_key, int y, int z){
+void move_with_special_key(int x, int y) {
+	
+	arr_fig[selector_figure_active_now]->figure_move(x, y);
+	int x_p = 0, y_p = 0;
+	arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);
+	x += x_p;
+	y += y_p;
+	arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
+	glutPostRedisplay();
+}
+
+void special_key(int s_key, int m, int z){
+	int x = 0, y = 0;
 	switch (s_key) {
 	case GLUT_KEY_F2:
 		counter_for_move = 0;
@@ -180,6 +194,23 @@ void special_key(int s_key, int y, int z){
 		counter_for_move = 0;
 		glutTimerFunc(1000, move_with_track, 0);
 		break;
+	case GLUT_KEY_LEFT:
+		x = -2; y = 0;
+		move_with_special_key(x, y);
+		break;
+	case GLUT_KEY_RIGHT:
+		x = 2; y = 0;
+		move_with_special_key(x, y);
+		break;
+	case GLUT_KEY_UP:
+		x = 0; y = -2;
+		move_with_special_key(x, y);
+		break;
+	case GLUT_KEY_DOWN:
+		x = 0; y = 2;
+		move_with_special_key(x, y);
+		break;
+
 	}
 
 }
