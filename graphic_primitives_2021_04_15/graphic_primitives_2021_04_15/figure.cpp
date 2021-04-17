@@ -49,8 +49,4 @@ void figure::get_max_min(int* arr_max_min) {
 	arr_max_min[1] = max_y;
 	arr_max_min[2] = min_x;
 	arr_max_min[3] = min_y;
-	for (int i = 0; i < 4; i++) {
-		cout << arr_max_min[i] << " ";
-	}
-	cout << endl;
 }

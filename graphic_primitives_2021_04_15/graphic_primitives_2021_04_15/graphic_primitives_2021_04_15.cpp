@@ -199,23 +199,22 @@ void move_with_special_key(int x, int y) {
 bool test_of_meet(void) {
 	int arr_max_min_for_activ_figure[4];
 	int arr_max_min_for_passiv_figure[4];
-	cout << " active " << selector_figure_active_now << endl;
 	arr_fig[selector_figure_active_now]->get_max_min(arr_max_min_for_activ_figure);
 	for (int i = 0; i < (figure::general_quantity_of_figure - 2); i++) {
-		cout << " choise " << i << endl;
 		if ((arr_fig[i] != NULL) && (i != selector_figure_active_now)) {
-			cout << " passive " << i << endl;
 			arr_fig[i]->get_max_min(arr_max_min_for_passiv_figure);
-			if ((min_x_act < max_x_pas) && (max_y_act > min_y_pas)) {
-				cout << " min_x_act " << min_x_act << " max_x_pas " << max_x_pas << endl;
-				cout << " max_y_act " << max_y_act << " min_y_pas " << min_y_pas << endl;
+			if ((min_x_act < max_x_pas) && (max_y_act > min_y_pas) &&
+				(max_x_act > min_x_pas) && (min_y_act < max_y_pas)) {
 				cout << " bingo 1 " << endl;
 			}
-			else if  ((min_x_act < max_x_pas) && (min_y_act < max_y_pas))
+			else if ((min_x_act < max_x_pas) && (min_y_act < max_y_pas) &&
+				(max_x_act > min_x_pas) && (max_y_act > min_y_pas))
 				cout << " bingo 2 " << endl;
-			else if  ((max_x_act > min_x_pas) && (max_y_act > min_y_pas))
+			else if ((max_x_act > min_x_pas) && (max_y_act > min_y_pas) &&
+				(min_x_act < max_x_pas) && (min_y_act < max_y_pas))
 				cout << " bingo 3 " << endl;
-			else if  ((max_x_act > min_x_pas) && (min_y_act < max_y_pas))
+			else if ((max_x_act > min_x_pas) && (min_y_act < max_y_pas) &&
+				(min_x_act < max_x_pas) && (max_y_act > min_y_pas))
 			{
 				cout << " bingoc 4 " << endl;
 			}
