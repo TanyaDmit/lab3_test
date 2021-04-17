@@ -3,7 +3,7 @@
 using namespace std;
 
 enum type_of_color_t {
-	light_green = 4325120, pink = 16711889, lilac = 11796637, dark_blue = 102,
+	light_green = 4325120, pink = 16711889, lilac = 11796637, dark_blue = 18101,
 	turquoise = 65535, dark_green = 39458, light_blue = 4430591,
 	purple = 7864477, yellow = 16776960, swampy = 10131968
 };

@@ -28,6 +28,7 @@ figure* arr_fig[figure::general_quantity_of_figure];
 void reshape(int width, int height);
 void general_draw(void);
 void keyboard(unsigned char key, int x, int y);
+void special_key(int s_key, int y, int z);
 
 //для таймеров
 void update(int value);
@@ -90,7 +91,7 @@ int main(int argc, char* argv[])
 	//glutTimerFunc(1000, update, 0);
 
 	//glutTimerFunc(100, select, 0);
-
+	glutSpecialFunc(special_key);
 	glutKeyboardFunc(keyboard);
 
 	// инициализация меню
@@ -131,22 +132,32 @@ void general_draw(void) {
 int i = 0, quantity = 5, x, y;
 
 void update(int value) {
-	/* //do your logic to change the cordinate of the enemy ships
-
-	 srand(time(0));
+	
 	 if (i != quantity) {
 		 x = -5 + rand() % 5;
-		 y = -5 + rand() % 5;
-		 arr_fig[1]->figure_move(x, y);
-		 x = 1 + rand() % 7;
-		 y = 1 + rand() % 7;
-		 arr_fig[0]->figure_move(x, y);
+		 y = -2 + rand() % 5;
+		 arr_fig[selector_figure_active_now]->figure_move(x, y);
+		 int x_p = 0, y_p = 0;
+		 arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);
+		 x += x_p;
+		 y += y_p;
+		 arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
 		 glutPostRedisplay();
 		 glutTimerFunc(1000, update, 0);
 		 i++;
 	 }
-	 */
+	 
 }
+
+void special_key(int s_key, int y, int z){
+	switch (s_key) {
+	case GLUT_KEY_F2:
+		i = 0;
+		glutTimerFunc(1000, update, 0);
+		break;
+	}
+}
+
 void select(int value) {//вызов видимости
 	/*
 	* selector_figure_active_now = search_number_first_filled(selector_figure_active_now);
@@ -373,12 +384,10 @@ void clarity_of_figure_func(int value) {
 	switch (value) {
 	case select_view:
 		arr_fig[selector_figure_active_now]->active_figure_clarity(select_view);
-		cout << select_view << " i break " << selector_figure_active_now  << endl;
 		break;
 
 	case select_hidden:
 		arr_fig[selector_figure_active_now]->active_figure_clarity(select_hidden);
-		cout << select_hidden << " i  " << selector_figure_active_now << endl;
 		break;
 	default:
 		cout << "static live is pain" << endl;

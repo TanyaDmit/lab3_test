@@ -63,7 +63,6 @@ void figure_square::figure_draw(void) {
 }
 
 void figure_square::figure_move(int x, int y) {
-	int move = 1 + rand() % 10;
 	for (int i = 0; i < quantity_of_point; i++) {
 		array_x_move[i] += x;
 		array_y_move[i] += y;
@@ -80,8 +79,12 @@ void figure_square::initialization_array(void) {
 }
 
 void figure_square::figure_position(int& x, int& y) {
-	x = array_x_move[1];
-	y = array_y_move[1];
+	for (int i = 0; i < quantity_of_point; i++) {
+		x += array_x_move[i];
+		y+= array_y_move[i];
+	}
+	x = x/quantity_of_point;
+	y = y/quantity_of_point;
 }
 
 void figure_square::active_figure_paint(int num_color) {

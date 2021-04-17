@@ -60,10 +60,9 @@ void figure_star::figure_draw(void) {
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		if (figure_fill) {
-			cout << " star " << endl;
 			glBegin(GL_TRIANGLE_FAN);
 			for (int i = 0; i < quantity_of_point; i++) {
-				glVertex2d(array_x[i], array_y[i]);
+				glVertex2d(array_x_move[i], array_y_move[i]);
 			}
 			glEnd();
 		}
@@ -98,8 +97,8 @@ void figure_star::initialization_array(void) {
 }
 
 void figure_star::figure_position(int& x, int& y) {
-	x = array_x_move[1];
-	y = array_y_move[1];
+		x = array_x_move[0];
+		y = array_y_move[0];
 }
 
 void figure_star::active_figure_paint(int num_color) {

@@ -48,7 +48,7 @@ void figure_triangle::figure_draw(void) {
 		}
 		glBegin(GL_TRIANGLES);
 		for (int i = 0; i < quantity_of_point; i++) {
-			glVertex2d(array_x[i], array_y[i]);
+			glVertex2d(array_x_move[i], array_y_move[i]);
 		}
 		glEnd();
 	}
@@ -76,8 +76,12 @@ void figure_triangle::initialization_array(void) {
 }
 
 void figure_triangle::figure_position(int& x, int& y) {
-	x = array_x_move[1];
-	y = array_y_move[1];
+	for (int i = 0; i < quantity_of_point; i++) {
+		x += array_x_move[i];
+		y += array_y_move[i];
+	}
+	x = x / quantity_of_point;
+	y = y / quantity_of_point;
 }
 
 void figure_triangle::active_figure_paint(int num_color) {

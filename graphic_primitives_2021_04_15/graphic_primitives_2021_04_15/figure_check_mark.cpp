@@ -47,12 +47,11 @@ void figure_check_mark::figure_draw(void) {
 }
 
 void figure_check_mark::figure_move(int x, int y) {
-	array_x_move[1] = array_x[1] = x + 2;
-	array_y_move[1] = array_y[1] = y - 2;
+	array_x_move[1] = array_x[1] = x;
+	array_y_move[1] = array_y[1] = y;
 	array_x_move[0] = array_x[0] = array_x[1] - delta_x;
 	array_x_move[2] = array_x[2] = array_x[1] + delta_x;
 	array_y_move[0] = array_y[0] = array_y[1] - delta_y;
 	array_y_move[2] = array_y[2] = array_y[0];
-	cout << " i see " << endl;
 
 }
