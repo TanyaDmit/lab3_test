@@ -21,12 +21,14 @@ figure_line::figure_line(int* my_color, bool clar) {
 
 figure_line::figure_line(void) {
 	initialization_array();
-	kind_of_figure = line;
+	//kind_of_figure = line;
 }
 
 void figure_line::figure_draw(void) {
 	if (need_of_calculation) {
 		coordinates_calculate();
+		class_for_range::range_max_and_min_int(array_x_move, &max_x, &min_x, quantity_of_point);
+		class_for_range::range_max_and_min_int(array_y_move, &max_y, &min_y, quantity_of_point);
 		need_of_calculation = false;
 	}
 
@@ -53,10 +55,8 @@ void figure_line::figure_draw(void) {
 }
 
 void figure_line::figure_move(int x, int y) {
-	for (int i = 0; i < quantity_of_point; i++) {
-		array_x_move[i] += x;
-		array_y_move[i] += y;
-	}
+	class_for_range::move_max_min_int(array_x_move, &max_x, &min_x, quantity_of_point, x);
+	class_for_range::move_max_min_int(array_y_move, &max_y, &min_y, quantity_of_point, y);
 }
 
 void figure_line::initialization_array(void) {

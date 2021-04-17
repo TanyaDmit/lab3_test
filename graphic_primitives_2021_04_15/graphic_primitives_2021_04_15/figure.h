@@ -2,6 +2,7 @@
 #include <iostream>
 #include <GL/freeglut.h>
 #include "class_for_color.h"
+#include "class_for_range.h"
 
 class figure {
 public:
@@ -17,9 +18,9 @@ public:
 	virtual void active_figure_paint(int);
 	virtual void active_figure_fill(int);
 	virtual void active_figure_clarity(int);
-
+	void get_max_min(int*);
 protected:
-	
+	int max_x, max_y, min_x, min_y;
 	bool figure_clarity;
 	bool need_of_calculation;
 	bool need_to_select;
@@ -28,4 +29,7 @@ protected:
 	int figure_color_select[3] = { 0,0,0 };
 	virtual void coordinates_calculate(void);
 	virtual void initialization_array(void);
+
+private:
+	void range_min_and_max(void);
 };
