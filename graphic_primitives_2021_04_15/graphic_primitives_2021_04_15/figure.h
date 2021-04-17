@@ -15,6 +15,8 @@ public:
 	figure(void);
 	virtual void active_figure_paint(int);
 	virtual void active_figure_fill(int);
+	virtual void active_figure_clarity(int);
+
 protected:
 	
 	bool figure_clarity;

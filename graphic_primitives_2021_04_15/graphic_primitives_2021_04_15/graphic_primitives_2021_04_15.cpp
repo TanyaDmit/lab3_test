@@ -219,11 +219,9 @@ void start_filled_figure(void) {
 	}
 	if (selector_figure_active_now >= 0) {
 		//arr_fig[selector]->my_clarity(false);
-		int x_p , y_p ;
+		int x_p =0, y_p=0 ;
 		arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);//выбранный
-		cout << x_p << " " << y_p << endl;
 		arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x_p, y_p);
-		cout << selector_figure_active_now << " i am first " << endl;
 	}
 	glutPostRedisplay();
 }
@@ -362,7 +360,6 @@ void fill_of_figure_func(int value) {
 
 	case select_empty:
 		arr_fig[selector_figure_active_now]->active_figure_fill(select_empty);
-		cout << "buttom 2.2 - is good" << endl;
 		break;
 	default:
 		cout << "static live is pain" << endl;
@@ -375,11 +372,13 @@ void fill_of_figure_func(int value) {
 void clarity_of_figure_func(int value) {
 	switch (value) {
 	case select_view:
-		cout << "buttom 2.2 - is good" << endl;
+		arr_fig[selector_figure_active_now]->active_figure_clarity(select_view);
+		cout << select_view << " i break " << selector_figure_active_now  << endl;
 		break;
 
 	case select_hidden:
-		cout << "buttom 2.2 - is good" << endl;
+		arr_fig[selector_figure_active_now]->active_figure_clarity(select_hidden);
+		cout << select_hidden << " i  " << selector_figure_active_now << endl;
 		break;
 	default:
 		cout << "static live is pain" << endl;

@@ -60,7 +60,7 @@ void figure_star::figure_draw(void) {
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		if (figure_fill) {
-
+			cout << " star " << endl;
 			glBegin(GL_TRIANGLE_FAN);
 			for (int i = 0; i < quantity_of_point; i++) {
 				glVertex2d(array_x[i], array_y[i]);
@@ -116,5 +116,14 @@ void figure_star::active_figure_fill(int switch_fill) {
 	}
 	else {
 		figure_fill = true;
+	}
+}
+
+void figure_star::active_figure_clarity(int switch_view) {
+	if (switch_view == 3) {
+		figure_clarity = false;
+	}
+	else if (switch_view == 2) {
+		figure_clarity = true;
 	}
 }

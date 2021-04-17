@@ -23,18 +23,16 @@ void figure_circle::coordinates_calculate(void) {
 	}
 }
 
-figure_circle::figure_circle(int* my_color, bool clar, bool paint, kind_of_figure_t my_type) {
+figure_circle::figure_circle(int* my_color, bool clar, bool paint) {
 	for (int i = 0; i < 3; i++) {
 		figure_color[i] = my_color[i];
 	}
 	figure_clarity = clar;
 	initialization_array();
-	kind_of_figure = my_type;
 	figure_fill = paint;
 }
 
 figure_circle::figure_circle(void) {
-
 	initialization_array();
 	kind_of_figure = circle;
 }
@@ -45,6 +43,7 @@ void figure_circle::figure_draw(void) {
 		coordinates_calculate();
 		need_of_calculation = false;
 	}
+
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (!figure_clarity) {
 		glEnable(GL_BLEND);
@@ -73,9 +72,9 @@ void figure_circle::figure_draw(void) {
 			}
 		}
 		glEnd();
-		if (!figure_clarity) {
-			glDisable(GL_BLEND);
-		}
+	}
+	if (!figure_clarity) {
+		glDisable(GL_BLEND);
 	}
 }
 
@@ -115,5 +114,14 @@ void figure_circle::active_figure_fill(int switch_fill) {
 	}
 	else {
 		figure_fill = true;
+	}
+}
+
+void figure_circle::active_figure_clarity(int switch_view) {
+	if (switch_view == 3) {
+		figure_clarity = false;
+	}
+	else if (switch_view == 2){
+		figure_clarity = true;
 	}
 }

@@ -88,3 +88,12 @@ void figure_line::active_figure_fill(int switch_fill) {
 	}
 	
 }
+
+void figure_line::active_figure_clarity(int switch_view) {
+	if (switch_view == 3) {
+		figure_clarity = false;
+	}
+	else if (switch_view == 2) {
+		figure_clarity = true;
+	}
+}

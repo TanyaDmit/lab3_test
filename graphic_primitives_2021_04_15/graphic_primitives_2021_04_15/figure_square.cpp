@@ -18,7 +18,7 @@ figure_square::figure_square(int* my_color, bool clar, bool paint) {
 	}
 	figure_clarity = clar;
 	initialization_array();
-	kind_of_figure = square;//?
+	//kind_of_figure = square;//?
 	figure_fill = paint;
 }
 
@@ -98,5 +98,14 @@ void figure_square::active_figure_fill(int switch_fill) {
 	}
 	else {
 		figure_fill = true;
+	}
+}
+
+void figure_square::active_figure_clarity(int switch_view) {
+	if (switch_view == 3) {
+		figure_clarity = false;
+	}
+	else if (switch_view == 2) {
+		figure_clarity = true;
 	}
 }
