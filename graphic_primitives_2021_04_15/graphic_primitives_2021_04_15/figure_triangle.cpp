@@ -87,3 +87,21 @@ void figure_triangle::active_figure_paint(int num_color) {
 		byte -= 8;
 	}
 }
+
+void figure_triangle::active_figure_fill(int switch_fill) {
+	if (switch_fill % 2 == 0) {
+		figure_fill = true;
+	}
+	else {
+		figure_fill = false;
+	}
+}
+
+void figure_triangle::active_figure_clarity(int switch_fill) {
+	if (switch_fill % 2 == 0) {
+		figure_clarity = true;
+	}
+	else {
+		figure_clarity = false;
+	}
+}

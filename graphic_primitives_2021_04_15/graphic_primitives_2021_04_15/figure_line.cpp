@@ -1,5 +1,7 @@
 #include "figure_line.h"
 
+using namespace std;
+
 void figure_line::coordinates_calculate(void) {
 	int delta_x_calculation = delta_x + 1, delta_y_calculation = delta_y + 1;
 	array_x_move[0] = array_x[0] = delta_x_calculation + rand() % (180 - delta_x_calculation - delta_x);//height-20
@@ -77,5 +79,17 @@ void figure_line::active_figure_paint(int num_color) {
 	for (int i = 0; i < 3; i++) {
 		figure_color[i] = class_for_color::get_color(num_color) >> byte;
 		byte -= 8;
+	}
+}
+void figure_line::active_figure_fill(int switch_fill) {
+	cout << " Sorry, I can`t do this :( " << endl;
+}
+
+void figure_line::active_figure_clarity(int switch_fill) {
+	if (switch_fill % 2 == 0) {
+		figure_clarity = true;
+	}
+	else {
+		figure_clarity = false;
 	}
 }

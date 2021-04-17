@@ -167,7 +167,7 @@ void select(int value) {//вызов видимости
 void keyboard(unsigned char key, int x, int y)
 {
     if (key == 27) exit(0); // 27 - код клавиши Esc
-    if (key == 'A') {
+    if (key == ' ') {
         selector_figure_from_keyboard = search_number_first_filled(selector_figure_from_keyboard);
         selector_figure_active_now = search_number_first_filled(selector_figure_active_now);
         if ((selector_figure_active_now >= 0) && (selector_figure_active_now == selector_figure_from_keyboard)) {
@@ -338,34 +338,39 @@ void color_of_figure_func(int value) {
 
 void fill_of_figure_func(int value) {
     switch (value) {
-    case select_fill:
-        //arr_fig[selector_figure_active_now]->active_figure_fill();
+    case select_fill://0
+        arr_fig[selector_figure_active_now]->active_figure_fill(select_fill);
         break;
 
     case select_empty:
-        cout << "buttom 2.2 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_fill(select_empty);
+        cout << " tyt " << endl;
         break;
     default:
         cout << "static live is pain" << endl;
         break;
 
     }
+    glFlush();
+    glutPostRedisplay();
 }
 
 void clarity_of_figure_func(int value) {
     switch (value) {
-    case select_view:
-        cout << "buttom 2.2 - is good" << endl;
+    case select_view://2
+        arr_fig[selector_figure_active_now]->active_figure_clarity(select_view);
         break;
 
     case select_hidden:
-        cout << "buttom 2.2 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_clarity(select_hidden);
         break;
     default:
         cout << "static live is pain" << endl;
         break;
 
     }
+    glFlush();
+    glutPostRedisplay();
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"

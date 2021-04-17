@@ -21,5 +21,7 @@ public:
 	void figure_move(int, int);
 	void figure_position(int&, int&);
 	void active_figure_paint(int);
+	void active_figure_fill(int);
+	void active_figure_clarity(int);
 };
 

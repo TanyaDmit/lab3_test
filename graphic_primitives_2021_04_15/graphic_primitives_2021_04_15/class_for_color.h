@@ -9,5 +9,4 @@ protected:
 public:
 	void out_all(void);
 	static int get_color(int);
-	static int get_selected_color(int);
 };
