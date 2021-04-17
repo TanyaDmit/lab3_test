@@ -19,7 +19,7 @@ const int width_Win = 1000;
 const int height_Win = 700;
 
 int selector_figure_from_keyboard = -1;//для мерцания и галочки
-int selector_figure_active_now = 1;//для мерцания и галочки
+int selector_figure_active_now = 0;//для мерцания и галочки
 
 
 int number_first_empty = 0;
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
     
     figure* point;
     point = &m_1;
-    arr_fig[0] = point;
+    arr_fig[9] = point;
     figure_circle circle_2;
     point = &circle_2;
     arr_fig[1] = point;
@@ -165,7 +165,7 @@ void select(int value) {//вызов видимости
         int x_p = 0, y_p = 0;
         arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);//выбранный
         cout << x_p << " " << y_p << endl;
-        arr_fig[0]->figure_move(x_p, y_p);
+        arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x_p, y_p);
     }
     else {//галочку надо спрятать и по умолчанию она спрятана
 
@@ -184,7 +184,7 @@ void keyboard(unsigned char key, int x, int y)
 }
 
 void search_number_first_empty(void) {
-    for (int i = 0; i < figure::general_quantity_of_figure; i++) {
+    for (int i = 0; i < (figure::general_quantity_of_figure-1); i++) {
         if (arr_fig[i] == NULL) {
             number_first_empty = i;
             return;
@@ -195,10 +195,10 @@ void search_number_first_empty(void) {
 
 int search_number_first_filled(int start) {
 
-    for (int i = 1; i < figure::general_quantity_of_figure; i++) {
+    for (int i = 1; i < (figure::general_quantity_of_figure-1); i++) {
         start++;
-        if (start >= figure::general_quantity_of_figure) {
-            start = 1;
+        if (start >= (figure::general_quantity_of_figure-1)) {
+            start = 0;
         }
         if (arr_fig[start] != NULL) {
             return start;
@@ -253,7 +253,7 @@ void create_figure_main_menu(void) {
 
 void type_of_figure_func(int value) {
     search_number_first_empty();
-    if (number_first_empty > 0) {
+    if (number_first_empty >= 0) {
         switch (value) {
         case select_circle: {
             figure_circle tmp;
