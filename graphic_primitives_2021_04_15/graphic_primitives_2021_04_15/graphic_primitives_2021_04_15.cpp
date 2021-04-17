@@ -100,8 +100,10 @@ int main(int argc, char* argv[])
     glutReshapeFunc(reshape);
 
     glutDisplayFunc(general_draw);// для рисования/перерисовки содержимого окна
-    glutTimerFunc(1000, update, 0);
-    glutTimerFunc(100, select, 0);
+    //glutTimerFunc(1000, update, 0);
+
+    //glutTimerFunc(100, select, 0);
+
     glutKeyboardFunc(keyboard);
 
     // инициализация меню
@@ -135,6 +137,7 @@ void general_draw(void) {
             arr_fig[i]->figure_draw();
         }
     }
+    glFlush();
     glutSwapBuffers();
 }
 
@@ -158,8 +161,8 @@ void update(int value) {
     */
 }
 void select(int value) {//вызов видимости
-
-    selector_figure_active_now = search_number_first_filled(selector_figure_active_now);
+    /*
+    * selector_figure_active_now = search_number_first_filled(selector_figure_active_now);
     if ((selector_figure_active_now >= 0) && (selector_figure_active_now == selector_figure_from_keyboard)) {
         //arr_fig[selector]->my_clarity(false);
         int x_p = 0, y_p = 0;
@@ -173,6 +176,7 @@ void select(int value) {//вызов видимости
 
     glutPostRedisplay();
     glutTimerFunc(100, select, 0);
+    */
 
 }
 void keyboard(unsigned char key, int x, int y)
@@ -180,6 +184,19 @@ void keyboard(unsigned char key, int x, int y)
     if (key == 27) exit(0); // 27 - код клавиши Esc
     if (key == 'A') {
         selector_figure_from_keyboard = search_number_first_filled(selector_figure_from_keyboard);
+        selector_figure_active_now = search_number_first_filled(selector_figure_active_now);
+        if ((selector_figure_active_now >= 0) && (selector_figure_active_now == selector_figure_from_keyboard)) {
+            //arr_fig[selector]->my_clarity(false);
+            int x_p = 0, y_p = 0;
+            arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);//выбранный
+            cout << x_p << " " << y_p << endl;
+            arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x_p, y_p);
+        }
+        else {//галочку надо спрятать и по умолчанию она спрятана
+
+        }
+
+        glutPostRedisplay();
     }
 }
 
@@ -291,6 +308,8 @@ void type_of_figure_func(int value) {
             cout << "live is pain" << endl;
             break;
         }
+        glFlush();
+        glutPostRedisplay();
     }
     else {
         cout << " game over :) " << endl;
