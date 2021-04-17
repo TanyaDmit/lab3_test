@@ -186,6 +186,9 @@ void move_with_special_key(int x, int y) {
 void special_key(int s_key, int m, int z){
 	int x = 0, y = 0;
 	switch (s_key) {
+	case GLUT_KEY_F1:
+		//вывод всех возможностей в консоль
+		break;
 	case GLUT_KEY_F2:
 		counter_for_move = 0;
 		glutTimerFunc(1000, move_without_track, 0);
@@ -193,6 +196,10 @@ void special_key(int s_key, int m, int z){
 	case GLUT_KEY_F3:
 		counter_for_move = 0;
 		glutTimerFunc(1000, move_with_track, 0);
+		break;
+	case GLUT_KEY_F4:
+		arr_fig[selector_figure_active_now] = NULL;
+		glutPostRedisplay();
 		break;
 	case GLUT_KEY_LEFT:
 		x = -2; y = 0;
