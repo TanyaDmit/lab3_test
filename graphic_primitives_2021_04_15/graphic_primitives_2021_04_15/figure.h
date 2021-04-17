@@ -13,7 +13,8 @@ public:
 	void activ_selected(bool);
 	virtual void figure_position(int&, int&);
 	figure(void);
-	//void figure_fill(void);
+	virtual void active_figure_paint(int);
+
 protected:
 	
 	bool figure_clarity;

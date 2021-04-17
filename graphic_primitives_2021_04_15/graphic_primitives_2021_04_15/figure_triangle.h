@@ -4,7 +4,6 @@
 class figure_triangle : public figure {
 private:
 	static const int quantity_of_point = 3;
-	bool figure_fill;
 	void coordinates_calculate(void);
 	int array_x[quantity_of_point];
 	int array_y[quantity_of_point];
@@ -18,5 +17,6 @@ public:
 	void figure_move(int, int);
 	void initialization_array(void);
 	void figure_position(int&, int&);
+	void active_figure_paint(int);
 };
 

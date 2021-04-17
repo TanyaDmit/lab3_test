@@ -59,7 +59,6 @@ void figure_circle::figure_draw(void) {
 		if (figure_fill) {
 			glEnable(GL_LINE_SMOOTH);//для сглаживания, но оно не работает
 			glBegin(GL_TRIANGLE_FAN);
-			cout << " circle" << endl;
 			for (int i = 0; i < quantity_of_point; i++) {
 				glVertex2d(array_x_move[i], array_y_move[i]);
 			}
@@ -99,4 +98,12 @@ void figure_circle::initialization_array(void) {
 void figure_circle::figure_position(int& x, int& y) {
 	x = array_x_move[1];
 	y = array_y_move[1];
+}
+
+void figure_circle::active_figure_paint(int num_color) {
+	int byte = 16;
+	for (int i = 0; i < 3; i++) {
+		figure_color[i] = class_for_color::get_color(num_color) >> byte;
+		byte -= 8;
+	}
 }

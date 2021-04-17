@@ -50,7 +50,7 @@ void process_menu_status(int status, int x, int y);
 void create_figure_main_menu(void);
 enum { select_circle = 1, select_line, select_star, select_triangle, select_square };
 enum {
-    select_light_green = 1, select_pink, select_lilac, select_dark_blue, select_turquoise,
+    select_light_green = 0, select_pink, select_lilac, select_dark_blue, select_turquoise,
     select_dark_green, select_light_blue, select_purple, select_yellow, select_swampy
 };
 enum { select_fill, select_empty, select_view, select_hidden };
@@ -175,6 +175,7 @@ void keyboard(unsigned char key, int x, int y)
             int x_p = 0, y_p = 0;
             arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);//выбранный
             arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x_p, y_p);
+            cout << selector_figure_active_now << " i am " << endl;
         }
         else {//галочку надо спрятать и по умолчанию она спрятана
 
@@ -292,50 +293,53 @@ void type_of_figure_func(int value) {
 void color_of_figure_func(int value) {
     switch (value) {
     case select_light_green:
-        cout << "buttom 2.1 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_light_green);
         break;
 
     case select_pink:
-        cout << "buttom 2.2 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_pink);
         break;
     case select_lilac:
-        cout << "buttom 2.1 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_lilac);
         break;
     case select_dark_blue:
-        cout << "buttom 2.1 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_dark_blue);
         break;
 
     case select_turquoise:
-        cout << "buttom 2.2 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_turquoise);
         break;
     case select_dark_green:
-        cout << "buttom 2.1 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_dark_green);
         break;
 
     case select_light_blue:
-        cout << "buttom 2.2 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_light_blue);
         break;
     case select_purple:
-        cout << "buttom 2.1 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_purple);
         break;
 
     case select_yellow:
-        cout << "buttom 2.2 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_yellow);
         break;
 
     case select_swampy:
-        cout << "buttom 2.2 - is good" << endl;
+        arr_fig[selector_figure_active_now]->active_figure_paint(select_swampy);
         break;
     default:
         cout << "static live is pain" << endl;
         break;
     }
+
+    glFlush();
+    glutPostRedisplay();
 }
 
 void fill_of_figure_func(int value) {
     switch (value) {
     case select_fill:
-        //arr_fig[selector_figure_active_now]->figure_fill();
+        //arr_fig[selector_figure_active_now]->active_figure_fill();
         break;
 
     case select_empty:

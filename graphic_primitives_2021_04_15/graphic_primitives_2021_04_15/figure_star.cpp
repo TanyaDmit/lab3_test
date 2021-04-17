@@ -101,3 +101,11 @@ void figure_star::figure_position(int& x, int& y) {
 	x = array_x_move[1];
 	y = array_y_move[1];
 }
+
+void figure_star::active_figure_paint(int num_color) {
+	int byte = 16;
+	for (int i = 0; i < 3; i++) {
+		figure_color[i] = class_for_color::get_color(num_color) >> byte;
+		byte -= 8;
+	}
+}

@@ -3,7 +3,6 @@
 class figure_square : public figure {
 private:
 	static const int quantity_of_point = 4;
-	bool figure_fill;
 	int array_x[quantity_of_point];
 	int array_y[quantity_of_point];
 	int array_x_move[quantity_of_point];
@@ -17,5 +16,6 @@ public:
 	void figure_draw(void);
 	void figure_move(int, int);
 	void figure_position(int&, int&);
+	void active_figure_paint(int);
 };
 

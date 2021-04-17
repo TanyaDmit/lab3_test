@@ -14,6 +14,8 @@ void figure::initialization_array(void){}
 
 void figure::figure_position(int&, int&) {}
 
+void figure::active_figure_paint(int) {}
+
 figure::figure(void) {
 	int byte = 16;
 	my_number++;
@@ -24,9 +26,8 @@ figure::figure(void) {
 	figure_clarity = true;
 	need_of_calculation = true;
 	need_to_select = false;
-	figure_fill = false;
+	figure_fill = true;
 }
-
 
 void figure::activ_selected(bool choise) {
 	if (choise) {
