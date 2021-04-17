@@ -16,6 +16,8 @@ void figure::figure_position(int&, int&) {}
 
 void figure::active_figure_paint(int) {}
 
+void figure::active_figure_fill(int) {}
+
 figure::figure(void) {
 	int byte = 16;
 	my_number++;

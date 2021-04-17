@@ -14,7 +14,7 @@ public:
 	virtual void figure_position(int&, int&);
 	figure(void);
 	virtual void active_figure_paint(int);
-
+	virtual void active_figure_fill(int);
 protected:
 	
 	bool figure_clarity;

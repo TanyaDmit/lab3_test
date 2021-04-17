@@ -98,6 +98,7 @@ void figure_circle::initialization_array(void) {
 void figure_circle::figure_position(int& x, int& y) {
 	x = array_x_move[1];
 	y = array_y_move[1];
+	cout << " i return " << x << " " << y << endl;
 }
 
 void figure_circle::active_figure_paint(int num_color) {
@@ -105,5 +106,14 @@ void figure_circle::active_figure_paint(int num_color) {
 	for (int i = 0; i < 3; i++) {
 		figure_color[i] = class_for_color::get_color(num_color) >> byte;
 		byte -= 8;
+	}
+}
+
+void figure_circle::active_figure_fill(int switch_fill) {
+	if (switch_fill == 1) {
+		figure_fill = false;
+	}
+	else {
+		figure_fill = true;
 	}
 }

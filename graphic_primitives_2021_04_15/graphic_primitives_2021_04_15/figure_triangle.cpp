@@ -87,3 +87,12 @@ void figure_triangle::active_figure_paint(int num_color) {
 		byte -= 8;
 	}
 }
+
+void figure_triangle::active_figure_fill(int switch_fill) {
+	if (switch_fill == 1) {
+		figure_fill = false;
+	}
+	else {
+		figure_fill = true;
+	}
+}
