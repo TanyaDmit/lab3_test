@@ -79,6 +79,8 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(height_Win, width_Win);//размеры окна
 	glClearColor(1, 1, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	glutAttachMenu(GLUT_LEFT_BUTTON);;
 	{
 		arr_fig[9] = new figure_check_mark;
 		arr_fig[8] = new figure_point;
