@@ -16,7 +16,7 @@ private:
 	void initialization_array(void);
 	void crush_of_figure(void);
 public:
-	figure_circle(int*, bool, bool);
+	figure_circle(int, int, unsigned int, bool, bool);
 	figure_circle(void);
 	void figure_draw(void);
 	void figure_move(int, int);

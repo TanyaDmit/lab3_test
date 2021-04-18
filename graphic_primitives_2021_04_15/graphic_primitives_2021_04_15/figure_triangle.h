@@ -15,7 +15,7 @@ private:
 	int array_y_crush[(quantity_of_point+1)];
 	int delta_x = 10, delta_y = 20;
 public:
-	figure_triangle(int*, bool, bool);
+	figure_triangle(int, int, unsigned int, bool, bool);
 	figure_triangle(void);
 	void figure_draw(void);
 	void figure_move(int, int);
@@ -26,6 +26,5 @@ public:
 	void active_figure_clarity(int);
 	void control_crush(bool);
 	string get_parameters(void);
-	void set_parameters(string);
 };
 

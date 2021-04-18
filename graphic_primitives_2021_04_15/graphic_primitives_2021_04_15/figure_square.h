@@ -14,7 +14,7 @@ private:
 	void coordinates_calculate(void);
 	void crush_of_figure(void);
 public:
-	figure_square(int*, bool, bool);
+	figure_square(int, int, unsigned int, bool, bool);
 	figure_square(void);
 	void figure_draw(void);
 	void figure_move(int, int);

@@ -18,10 +18,6 @@ int class_for_color::get_color(int index) {
 	return (int)opportunity_color[index % 10];
 }
 
-int class_for_color::get_selected_color(int index) {
-	return (int)opportunity_color[index];
-}
-
 void class_for_color::out_all(void)
 {
 	for (int i = 0; i < sizeof(opportunity_color) / sizeof(type_of_color_t); i++) {

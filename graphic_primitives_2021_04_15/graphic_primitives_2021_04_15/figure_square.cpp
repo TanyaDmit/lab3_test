@@ -1,9 +1,6 @@
 #include "figure_square.h"
 
 void figure_square::coordinates_calculate(void) {
-	int delta_x_calculation = delta_x + 1, delta_y_calculation = delta_y + 1;
-	array_x_move[0] = array_x[0] = delta_x_calculation + rand() % (180 - delta_x_calculation - delta_x);//height-20
-	array_y_move[0] = array_y[0] = delta_y_calculation + rand() % (120 - delta_y_calculation - delta_y);//width-20
 	array_x_move[1] = array_x[1] = array_x[0] + delta_x;
 	array_y_move[1] = array_y[1] = array_y[0];
 	array_x_move[2] = array_x[2] = array_x[1];
@@ -12,19 +9,25 @@ void figure_square::coordinates_calculate(void) {
 	array_y_move[3] = array_y[3] = array_y[2];
 }
 
-figure_square::figure_square(int* my_color, bool clar, bool paint) {
-	for (int i = 0; i < 3; i++) {
-		figure_color[i] = my_color[i];
-	}
+figure_square::figure_square(int x, int y, unsigned int my_color, bool clar, bool paint) {
+	figure_color[2] = 0xff & my_color;
+	figure_color[1] = 0xff & (my_color >> 8);
+	figure_color[0] = 0xff & (my_color >> 16);
 	figure_clarity = clar;
-	initialization_array();
-	//kind_of_figure = square;//?
 	figure_fill = paint;
+	initialization_array();
+	kind_of_figure = figure::square;
+	array_x_move[0] = array_x[0] = x;
+	array_y_move[0] = array_y[0] = y;
+	need_of_calculation = true;
 }
 
 figure_square::figure_square(void) {
 	initialization_array();
-	kind_of_figure = square;
+	kind_of_figure = figure::square;
+	int delta_x_calculation = delta_x + 1, delta_y_calculation = delta_y + 1;
+	array_x_move[0] = array_x[0] = delta_x_calculation + rand() % (180 - delta_x_calculation - delta_x);//height-20
+	array_y_move[0] = array_y[0] = delta_y_calculation + rand() % (120 - delta_y_calculation - delta_y);//width-20
 }
 
 
@@ -77,7 +80,7 @@ void figure_square::figure_draw(void) {
 				glEnd();
 			}
 		}
-		
+
 	}
 	if (!figure_clarity) {
 		glDisable(GL_BLEND);
@@ -163,11 +166,11 @@ void figure_square::active_figure_clarity(int switch_view) {
 
 string figure_square::get_parameters(void) {//отдать
 	string str = "";
-	str += to_string(kind_of_figure) + ";";
-	str += to_string(array_x_move[0]) + ";";
-	str += to_string(array_y_move[0]) + ";";
-	str += to_string(figure::collect_color()) + ";";
-	str += figure_clarity ? "1;" : "0;";
-	str += figure_fill ? "1;" : "0;";
+	str += to_string(kind_of_figure) + " ";
+	str += to_string(array_x_move[0]) + " ";
+	str += to_string(array_y_move[0]) + " ";
+	str += to_string(figure::collect_color()) + " ";
+	str += figure_clarity ? "1 " : "0 ";
+	str += figure_fill ? "1 " : "0 ";
 	return str;
 }

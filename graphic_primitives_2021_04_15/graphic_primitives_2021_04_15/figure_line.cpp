@@ -3,25 +3,29 @@
 using namespace std;
 
 void figure_line::coordinates_calculate(void) {
-	int delta_x_calculation = delta_x + 1, delta_y_calculation = delta_y + 1;
-	array_x_move[0] = array_x[0] = delta_x_calculation + rand() % (180 - delta_x_calculation - delta_x);//height-20
-	array_y_move[0] = array_y[0] = delta_y_calculation + rand() % (120 - delta_y_calculation - delta_y);//width-20
 	array_x_move[1] = array_x[1] = array_x[0] + delta_x;
 	array_y_move[1] = array_y[1] = array_y[0] + delta_y;
 }
 
-figure_line::figure_line(int* my_color, bool clar) {
-	for (int i = 0; i < 3; i++) {
-		figure_color[i] = my_color[i];
-	}
+figure_line::figure_line(int x, int y, unsigned int my_color, bool clar, bool paint) {
+	figure_color[2] = 0xff & my_color;
+	figure_color[1] = 0xff & (my_color >> 8);
+	figure_color[0] = 0xff & (my_color >> 16);
 	figure_clarity = clar;
+	figure_fill = paint;
 	initialization_array();
-	//kind_of_figure = line;//?
+	kind_of_figure = figure::line;
+	array_x_move[0] = array_x[0] = x;
+	array_y_move[0] = array_y[0] = y;
+	need_of_calculation = true;
 }
 
 figure_line::figure_line(void) {
 	initialization_array();
-	kind_of_figure = line;
+	kind_of_figure = figure::line;
+	int delta_x_calculation = delta_x + 1, delta_y_calculation = delta_y + 1;
+	array_x_move[0] = array_x[0] = delta_x_calculation + rand() % (180 - delta_x_calculation - delta_x);//height-20
+	array_y_move[0] = array_y[0] = delta_y_calculation + rand() % (120 - delta_y_calculation - delta_y);//width-20
 }
 
 void figure_line::figure_draw(void) {
@@ -94,7 +98,7 @@ void figure_line::active_figure_fill(int switch_fill) {
 	if (switch_fill == 1) {
 		cout << " Sorry, I can`t do this :( " << endl;
 	}
-	
+
 }
 
 void figure_line::active_figure_clarity(int switch_view) {
@@ -108,11 +112,11 @@ void figure_line::active_figure_clarity(int switch_view) {
 
 string figure_line::get_parameters(void) {//отдать
 	string str = "";
-	str += to_string(kind_of_figure) + ";";
-	str += to_string(array_x_move[0]) + ";";
-	str += to_string(array_y_move[0]) + ";";
-	str += to_string(figure::collect_color()) + ";";
-	str += figure_clarity ? "1;" : "0;";
-	str += figure_fill ? "1;" : "0;";
+	str += to_string(kind_of_figure) + " ";
+	str += to_string(array_x_move[0]) + " ";
+	str += to_string(array_y_move[0]) + " ";
+	str += to_string(figure::collect_color()) + " ";
+	str += figure_clarity ? "1 " : "0 ";
+	str += figure_fill ? "1 " : "0 ";
 	return str;
 }

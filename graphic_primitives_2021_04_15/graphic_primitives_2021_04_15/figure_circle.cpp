@@ -1,14 +1,9 @@
 #include "figure_circle.h"
 
 void figure_circle::coordinates_calculate(void) {
-	int radius_calculate = radius + 1;
-	array_x_move[0] = array_x[0] = radius_calculate + rand() % (180 - radius_calculate);//height-20
-	array_y_move[0] = array_y[0] = radius_calculate + rand() % (120 - radius_calculate);;//width-20
-
 	for (int i = 0; i < quantity_of_point; i++)
 	{
 		float angle = 2.0 * 3.1415926 * float(i) / float(quantity_of_point);
-
 		float dx = radius * cosf(angle);
 		float dy = radius * sinf(angle);
 		if (i + 1 == quantity_of_point) {
@@ -18,23 +13,28 @@ void figure_circle::coordinates_calculate(void) {
 			array_x_move[i + 1] = array_x[i + 1] = array_x[0] + dx;
 			array_y_move[i + 1] = array_y[i + 1] = array_y[0] + dy;
 		}
-
-
 	}
 }
 
-figure_circle::figure_circle(int* my_color, bool clar, bool paint) {
-	for (int i = 0; i < 3; i++) {
-		figure_color[i] = my_color[i];
-	}
+figure_circle::figure_circle(int x, int y, unsigned int my_color, bool clar, bool paint) {
+	figure_color[2] = 0xff & my_color;
+	figure_color[1] = 0xff & (my_color>>8);
+	figure_color[0] = 0xff & (my_color >> 16);
 	figure_clarity = clar;
-	initialization_array();
 	figure_fill = paint;
+	initialization_array();
+	kind_of_figure = figure::circle;
+	array_x_move[0] = array_x[0] = x;
+	array_y_move[0] = array_y[0] = y;
+	need_of_calculation = true;
 }
 
 figure_circle::figure_circle(void) {
 	initialization_array();
-	kind_of_figure = circle;
+	kind_of_figure = figure::circle;
+	int radius_calculate = radius + 1;
+	array_x_move[0] = array_x[0] = radius_calculate + rand() % (180 - radius_calculate);//height-20
+	array_y_move[0] = array_y[0] = radius_calculate + rand() % (120 - radius_calculate);;//width-2
 }
 
 
@@ -136,11 +136,11 @@ void figure_circle::active_figure_clarity(int switch_view) {
 
 string figure_circle::get_parameters(void) {//отдать
 	string str = "";
-	str += to_string(kind_of_figure) + ";";
-	str += to_string((int)round(array_x_move[0])) + ";";
-	str += to_string((int)round(array_y_move[0])) + ";";
-	str += to_string(figure::collect_color()) + ";";
-	str += figure_clarity ? "1;" : "0;";
-	str += figure_fill ? "1;" : "0;";
+	str += to_string(kind_of_figure) + " ";
+	str += to_string((int)round(array_x_move[0])) + " ";
+	str += to_string((int)round(array_y_move[0])) + " ";
+	str += to_string(figure::collect_color()) + " ";
+	str += figure_clarity ? "1 " : "0 ";
+	str += figure_fill ? "1 " : "0 ";
 	return str;
 }

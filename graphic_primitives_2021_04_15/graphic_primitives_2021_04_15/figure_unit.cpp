@@ -55,3 +55,7 @@ void figure_unit::figure_position_for_track(int& x, int& y) {
 		}
 	}
 }
+
+void figure_unit::active_figure_paint(int) {
+
+}

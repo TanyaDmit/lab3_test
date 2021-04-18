@@ -49,6 +49,7 @@ int search_number_first_filled(int start);
 void start_filled_figure(void);
 void move_with_special_key(int x, int y);//для движения стрелками
 bool test_of_meet(void);//для столкновения фигур
+void type_of_figure_initialization(int num, int type_fig);//для считывания из файла
 
 //для меню
 int type_of_figure, color_of_figure, fill_of_figure, clarity_of_figure, call_of_figure;
@@ -69,12 +70,7 @@ enum { select_fill, select_empty, select_view, select_hidden };
 int main(int argc, char* argv[])
 {
 	cout << "Hello World!\n";
-	if (argc == 2) {
-		file_name = argv[1];
-	}
-	else {
-		file_name = NULL;
-	}
+
 	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		arr_fig[i] = NULL;
 	}
@@ -90,22 +86,66 @@ int main(int argc, char* argv[])
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glutAttachMenu(GLUT_LEFT_BUTTON);//для разблокировки клавиатуры
-	{
-		arr_fig[1] = new figure_circle;
-		arr_fig[2] = new figure_star;
-		arr_fig[3] = new figure_triangle;
-		arr_fig[4] = new figure_star;
-		arr_fig[5] = new figure_square;
-		arr_fig[6] = new figure_circle;
+	int counter_for_read = 0;
+	if (argc == 2) {
+		unsigned int buff[6];
+		file_name = argv[1];
+		bool end_exit = false;
+		ifstream fin(file_name);
+		string str;
+		int i = 0;
+		while (!end_exit) {
+			for (int j = 0; j < 6; j++) {
+				fin >> buff[j];
+				if (fin.eof()) {
+					cout << " end of file " << endl;
+					end_exit = true;
+					break;
+				}
+				counter_for_read++;
+			}
+			if (end_exit) {
+				break;
+			}
+			switch (buff[0]) {
+			case select_circle:
+				arr_fig[i] = new figure_circle(buff[1], buff[2], buff[3], buff[4], buff[5]);
+				break;
+			case select_line:
+				arr_fig[i] = new figure_line(buff[1], buff[2], buff[3], buff[4], buff[5]);
+				break;
+			case select_star:
+				arr_fig[i] = new figure_star(buff[1], buff[2], buff[3], buff[4], buff[5]);
+				break;
+			case select_triangle:
+				arr_fig[i] = new figure_triangle(buff[1], buff[2], buff[3], buff[4], buff[5]);
+				break;
+			case select_square:
+				arr_fig[i] = new figure_square(buff[1], buff[2], buff[3], buff[4], buff[5]);
+				break;
+			default:
+				cout << " OBLOM " << endl;
+				break;
+			}
+			if (++i >= figure::general_quantity_of_figure)
+				break;
+		}
 	}
-	
+	if (counter_for_read == 0) {//если нет файла
+		arr_fig[0] = new figure_triangle;
+		arr_fig[1] = new figure_star;
+		arr_fig[2] = new figure_square;
+		arr_fig[3] = new figure_circle;
+	}
+
+
 
 	start_filled_figure();
 	// #2: Регистрация функций-обработчиков событий
 	glutReshapeFunc(reshape);
 
 	glutDisplayFunc(general_draw);// для рисования/перерисовки содержимого окна
-	
+
 
 	glutSpecialFunc(special_key);
 	glutKeyboardFunc(keyboard);
@@ -159,7 +199,7 @@ void move_without_track(int value) {
 		x += x_p;
 		y += y_p;
 		general_check_mark.figure_move(x, y);
-		
+
 		glutPostRedisplay();
 		glutTimerFunc(1000, move_without_track, 0);
 		counter_for_move++;
@@ -182,7 +222,7 @@ void move_with_track(int value) {
 		y += y_p;
 		general_check_mark.figure_move(x, y);
 		general_point.figure_move(x_p_for_track, y_p_for_track);
-		
+
 		glutPostRedisplay();
 		glutTimerFunc(1000, move_with_track, 0);
 		counter_for_move++;
@@ -238,7 +278,7 @@ bool test_of_meet(void) {
 				return true;
 			}
 			else if ((max_x_act > min_x_pas) && (min_y_act < max_y_pas) &&
-				(min_x_act < max_x_pas) && (max_y_act > min_y_pas)){
+				(min_x_act < max_x_pas) && (max_y_act > min_y_pas)) {
 				arr_fig[selector_figure_active_now]->control_crush(true);
 				arr_fig[i]->control_crush(true);
 				cout << " bingo 4 " << endl;
@@ -266,7 +306,7 @@ void check_on_unit(void) {
 		arr_fig[selector_figure_active_now] = NULL;
 		selector_figure_active_now = number_first_empty;
 	}
-	
+
 }
 
 int count_quantity = 0;//общее количество объектов
@@ -289,6 +329,7 @@ void special_key(int s_key, int m, int z) {
 			ofstream fout(file_name);
 			for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 				if (arr_fig[i] != NULL) {
+					cout << " here " << endl;
 					fout << arr_fig[i]->get_parameters() << endl;
 				}
 			}

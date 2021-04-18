@@ -17,7 +17,7 @@ private:
 	void initialization_array(void);
 	void crush_of_figure(void);
 public:
-	figure_star(int*, bool, bool);
+	figure_star(int, int, unsigned int, bool, bool);
 	figure_star(void);
 	void figure_draw(void);
 	void figure_move(int, int);

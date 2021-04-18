@@ -3,7 +3,6 @@
 class figure_line : public figure_unit {
 private:
 	static const int quantity_of_point = 2;
-	
 	int array_x[quantity_of_point];
 	int array_y[quantity_of_point];
 	int array_x_move[quantity_of_point];
@@ -12,7 +11,7 @@ private:
 	void initialization_array(void);
 	void coordinates_calculate(void);
 public:
-	figure_line(int*, bool);
+	figure_line(int, int, unsigned int, bool, bool);
 	figure_line(void);
 	void figure_draw(void);
 	void figure_move(int, int);

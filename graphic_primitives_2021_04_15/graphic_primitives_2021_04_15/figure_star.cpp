@@ -3,9 +3,6 @@
 using namespace std;
 
 void figure_star::coordinates_calculate(void) {
-	int radius_calculate = radius + 1;
-	array_x_move[0] = array_x[0] = radius_calculate + rand() % (180 - radius_calculate);//height-20
-	array_y_move[0] = array_y[0] = radius_calculate + rand() % (120 - radius_calculate);//width-20
 	float angle_of_rotation = 1.257;
 	float bias = 0.5;
 	float x_center = array_x_move[0], y_center = array_y_move[0];
@@ -26,19 +23,25 @@ void figure_star::coordinates_calculate(void) {
 	}
 }
 
-figure_star::figure_star(int* my_color, bool clar, bool paint) {
-	for (int i = 0; i < 3; i++) {
-		figure_color[i] = my_color[i];
-	}
+figure_star::figure_star(int x, int y, unsigned int my_color, bool clar, bool paint) {
+	figure_color[2] = 0xff & my_color;
+	figure_color[1] = 0xff & (my_color >> 8);
+	figure_color[0] = 0xff & (my_color >> 16);
 	figure_clarity = clar;
-	initialization_array();
-	//kind_of_figure = star;
 	figure_fill = paint;
+	initialization_array();
+	kind_of_figure = figure::star;
+	array_x_move[0] = array_x[0] = x;
+	array_y_move[0] = array_y[0] = y;
+	need_of_calculation = true;
 }
 
 figure_star::figure_star(void) {
 	initialization_array();
-	kind_of_figure = star;
+	kind_of_figure = figure::star;
+	int radius_calculate = radius + 1;
+	array_x_move[0] = array_x[0] = radius_calculate + rand() % (180 - radius_calculate);//height-20
+	array_y_move[0] = array_y[0] = radius_calculate + rand() % (120 - radius_calculate);//width-20
 }
 
 
@@ -78,7 +81,7 @@ void figure_star::figure_draw(void) {
 		else {
 			glLineWidth(3);//толщина линии
 			glColor3ub(figure_color[0], figure_color[1], figure_color[2]);//тоже надо будет менять
-			
+
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			if (figure_fill) {
 				glBegin(GL_TRIANGLE_FAN);
@@ -95,7 +98,7 @@ void figure_star::figure_draw(void) {
 				glEnd();
 			}
 		}
-		
+
 	}
 	if (!figure_clarity) {
 		glDisable(GL_BLEND);
@@ -175,11 +178,11 @@ void figure_star::active_figure_clarity(int switch_view) {
 
 string figure_star::get_parameters(void) {//отдать
 	string str = "";
-	str += to_string(kind_of_figure) + ";";
-	str += to_string((int)round(array_x_move[0])) + ";";
-	str += to_string((int)round(array_y_move[0])) + ";";
-	str += to_string(figure::collect_color()) + ";";
-	str += figure_clarity ? "1;" : "0;";
-	str += figure_fill ? "1;" : "0;";
+	str += to_string(kind_of_figure) + " ";
+	str += to_string((int)round(array_x_move[0])) + " ";
+	str += to_string((int)round(array_y_move[0])) + " ";
+	str += to_string(figure::collect_color()) + " ";
+	str += figure_clarity ? "1 " : "0 ";
+	str += figure_fill ? "1 " : "0 ";
 	return str;
 }

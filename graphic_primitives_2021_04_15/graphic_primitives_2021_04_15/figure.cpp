@@ -37,16 +37,14 @@ string figure::get_parameters(void){
 }
 
 figure::figure(void) {
-	int byte = 16;
-	my_number++;
-	for (int i = 0; i < 3; i++) {
-		figure_color[i] = class_for_color::get_color(my_number) >> byte;
-		byte -= 8;
-	}
+	figure_color[2] = 0xff & class_for_color::get_color(my_number);
+	figure_color[1] = 0xff & (class_for_color::get_color(my_number) >> 8);
+	figure_color[0] = 0xff & (class_for_color::get_color(my_number) >> 16);
 	figure_clarity = true;
 	need_of_calculation = true;
 	figure_fill = true;
 	figure_crush = false;
+	my_number++;
 	max_x = 0; max_y = 0; min_x = 0; min_y=0;
 }
 
@@ -58,5 +56,12 @@ void figure::get_max_min(int* arr_max_min) {
 }
 
 unsigned int figure::collect_color(void) {
-	return figure_color[0] +(figure_color [1]<<8)+(figure_color[2]<<16);
+	unsigned int a;
+	a = figure_color[0];
+	a <<= 8;
+	a += figure_color[1];
+	a <<= 8;
+	a += figure_color[2];
+	//return (0xff & figure_color[0]) + ((0xff & figure_color [1])<<8)+((0xff & figure_color[2])<<16);
+	return a;
 }
