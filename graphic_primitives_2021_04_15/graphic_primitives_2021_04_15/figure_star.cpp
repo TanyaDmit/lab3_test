@@ -86,6 +86,17 @@ void figure_star::figure_move(int x, int y) {
 	class_for_range::move_max_min_float(array_y_move, &max_y, &min_y, quantity_of_point, y);
 }
 
+void figure_star::multiple_change_figure(void) {
+	if (multiple_of_change > 0.2) {
+		coordinates_calculate();
+		multiple_of_change -= 0.1;
+	}
+	else {
+		cout << " I can`t change anymore " << endl;
+	}
+
+}
+
 void figure_star::initialization_array(void) {
 	for (int i = 0; i < quantity_of_point; i++) {
 		array_x[i] = 0;

@@ -18,6 +18,7 @@ public:
 	virtual void active_figure_paint(int);
 	virtual void active_figure_fill(int);
 	virtual void active_figure_clarity(int);
+	virtual void multiple_change_figure(void);
 	void get_max_min(int*);
 protected:
 	int max_x, max_y, min_x, min_y;
@@ -29,6 +30,7 @@ protected:
 	int figure_color_select[3] = { 0,0,0 };
 	virtual void coordinates_calculate(void);
 	virtual void initialization_array(void);
+	int multiple_of_change;
 
 private:
 	void range_min_and_max(void);

@@ -23,5 +23,6 @@ public:
 	void active_figure_paint(int);
 	void active_figure_fill(int);
 	void active_figure_clarity(int);
+	void multiple_change_figure(void);
 };
 

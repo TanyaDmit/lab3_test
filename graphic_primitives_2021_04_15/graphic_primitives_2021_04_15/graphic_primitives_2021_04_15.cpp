@@ -207,6 +207,8 @@ bool test_of_meet(void) {
 			arr_fig[i]->get_max_min(arr_max_min_for_passiv_figure);
 			if ((min_x_act < max_x_pas) && (max_y_act > min_y_pas) &&
 				(max_x_act > min_x_pas) && (min_y_act < max_y_pas)) {
+				//arr_fig[selector_figure_active_now]->multiple_change_figure();
+				//arr_fig[i]->multiple_change_figure();
 				cout << " bingo 1 " << endl;
 			}
 			else if ((min_x_act < max_x_pas) && (min_y_act < max_y_pas) &&

@@ -22,6 +22,8 @@ void figure::active_figure_fill(int) {}
 
 void figure::active_figure_clarity(int) {}
 
+void figure::multiple_change_figure(void) {}
+
 figure::figure(void) {
 	int byte = 16;
 	my_number++;
@@ -33,6 +35,7 @@ figure::figure(void) {
 	need_of_calculation = true;
 	need_to_select = false;
 	figure_fill = true;
+	multiple_of_change = 100;
 }
 
 void figure::activ_selected(bool choise) {

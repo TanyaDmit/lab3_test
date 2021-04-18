@@ -1,5 +1,7 @@
 #include "figure_triangle.h"
 
+using namespace std;
+
 void figure_triangle::coordinates_calculate(void) {
 	int delta_x_calculation = delta_x + 1, delta_y_calculation = delta_y + 1;
 	array_x_move[0] = array_x[0] = delta_x_calculation + rand() % (180 - delta_x_calculation);//height-20
@@ -64,6 +66,17 @@ void figure_triangle::figure_draw(void) {
 void figure_triangle::figure_move(int x, int y) {
 	class_for_range::move_max_min_int(array_x_move, &max_x, &min_x, quantity_of_point, x);
 	class_for_range::move_max_min_int(array_y_move, &max_y, &min_y, quantity_of_point, y);
+}
+
+void figure_triangle::multiple_change_figure(void) {
+	if (multiple_of_change > 20) {
+		coordinates_calculate();
+		multiple_of_change -= 10;
+	}
+	else {
+		cout << " I can`t change anymore " << endl;
+	}
+	
 }
 
 void figure_triangle::initialization_array(void) {
