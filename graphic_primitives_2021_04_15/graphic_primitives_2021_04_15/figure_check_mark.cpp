@@ -55,3 +55,8 @@ void figure_check_mark::figure_move(int x, int y) {
 	array_y_move[2] = array_y[2] = array_y[0];
 
 }
+
+void figure_check_mark::figure_position_for_track(int& x, int& y) {
+	x = array_x_move[1];
+	y = array_y_move[1];
+}

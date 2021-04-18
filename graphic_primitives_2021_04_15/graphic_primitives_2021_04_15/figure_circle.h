@@ -1,10 +1,8 @@
 #pragma once
-#include "figure.h"
+#include "figure_unit.h"
 #include <math.h>
 
-using namespace std;
-
-class figure_circle : public figure {
+class figure_circle : public figure_unit {
 private:
 	static const int quantity_of_point = 55;
 	float array_x[quantity_of_point];

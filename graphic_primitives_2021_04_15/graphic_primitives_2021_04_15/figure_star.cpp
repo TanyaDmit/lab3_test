@@ -134,9 +134,7 @@ void figure_star::crush_of_figure(void) {
 			array_y_crush[j] = array_y_move[i];
 			j++;
 		}
-		
 	}
-	cout << endl;
 }
 
 void figure_star::control_crush(bool flag) {

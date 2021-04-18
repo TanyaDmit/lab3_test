@@ -1,7 +1,7 @@
 #pragma once
-#include "figure.h"
+#include "figure_unit.h"
 
-class figure_triangle : public figure {
+class figure_triangle : public figure_unit {
 private:
 	static const int quantity_of_point = 3;
 	void coordinates_calculate(void);

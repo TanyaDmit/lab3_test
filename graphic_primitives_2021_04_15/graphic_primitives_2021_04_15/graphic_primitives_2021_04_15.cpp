@@ -20,12 +20,15 @@ using namespace std;
 const int width_Win = 1000;
 const int height_Win = 700;
 
-int selector_figure_from_keyboard = -1;//для мерцания и галочки
 int selector_figure_active_now = 0;//для мерцания и галочки активная фигура
 int counter_for_move = 0, max_quantity_move = 7;//для движения
+bool check_figure_unit = true;//для создания нового агрегата
+bool test_of_meet_figure = false;//для проверки пересечения
 
 int number_first_empty = 0;
 figure* arr_fig[figure::general_quantity_of_figure];
+figure_check_mark general_check_mark;
+figure_point general_point;
 
 //для библиотеки
 void reshape(int width, int height);
@@ -36,8 +39,6 @@ void special_key(int s_key, int m, int z);
 //для таймеров
 void move_without_track(int value);
 void move_with_track(int value);
-void select(int value);
-//void clarity(int value);
 
 //
 void search_number_first_empty(void);
@@ -54,7 +55,6 @@ void color_of_figure_func(int value);
 void fill_of_figure_func(int value);
 void clarity_of_figure_func(int value);
 void call_of_figure_func(int value) {};
-void process_menu_status(int status, int x, int y);
 void create_figure_main_menu(void);
 enum { select_circle = 1, select_line, select_star, select_triangle, select_square };
 enum {
@@ -83,8 +83,6 @@ int main(int argc, char* argv[])
 
 	glutAttachMenu(GLUT_LEFT_BUTTON);//для разблокировки клавиатуры
 	{
-		arr_fig[9] = new figure_check_mark;
-		arr_fig[8] = new figure_point;
 		arr_fig[1] = new figure_circle;
 		arr_fig[2] = new figure_star;
 		arr_fig[3] = new figure_triangle;
@@ -97,9 +95,7 @@ int main(int argc, char* argv[])
 	glutReshapeFunc(reshape);
 
 	glutDisplayFunc(general_draw);// для рисования/перерисовки содержимого окна
-	//glutTimerFunc(1000, update, 0);
 
-	//glutTimerFunc(100, select, 0);
 	glutSpecialFunc(special_key);
 	glutKeyboardFunc(keyboard);
 
@@ -134,11 +130,11 @@ void general_draw(void) {
 			arr_fig[i]->figure_draw();
 		}
 	}
+	general_check_mark.figure_draw();
+	general_point.figure_draw();
 	glFlush();
 	glutSwapBuffers();
 }
-
-bool test_of_meet_figure = false;
 
 void move_without_track(int value) {
 	int x = 0, y = 0;
@@ -151,7 +147,7 @@ void move_without_track(int value) {
 		arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);
 		x += x_p;
 		y += y_p;
-		arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
+		general_check_mark.figure_move(x, y);
 		
 		glutPostRedisplay();
 		glutTimerFunc(1000, move_without_track, 0);
@@ -173,8 +169,8 @@ void move_with_track(int value) {
 		arr_fig[selector_figure_active_now]->figure_position_for_track(x_p_for_track, y_p_for_track);
 		x += x_p;
 		y += y_p;
-		arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
-		arr_fig[(figure::general_quantity_of_figure - 2)]->figure_move(x_p_for_track, y_p_for_track);
+		general_check_mark.figure_move(x, y);
+		general_point.figure_move(x_p_for_track, y_p_for_track);
 		
 		glutPostRedisplay();
 		glutTimerFunc(1000, move_with_track, 0);
@@ -184,14 +180,12 @@ void move_with_track(int value) {
 
 void move_with_special_key(int x, int y) {
 	test_of_meet_figure = test_of_meet();
-	//arr_fig[selector_figure_active_now]->control_crush(test_of_meet_figure);
 	arr_fig[selector_figure_active_now]->figure_move(x, y);
 	int x_p = 0, y_p = 0;
 	arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);
 	x += x_p;
 	y += y_p;
-	arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
-	
+	general_check_mark.figure_move(x, y);
 	glutPostRedisplay();
 }
 
@@ -208,7 +202,7 @@ bool test_of_meet(void) {
 	int arr_max_min_for_activ_figure[4];
 	int arr_max_min_for_passiv_figure[4];
 	arr_fig[selector_figure_active_now]->get_max_min(arr_max_min_for_activ_figure);
-	for (int i = 0; i < (figure::general_quantity_of_figure - 2); i++) {
+	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		if ((arr_fig[i] != NULL) && (i != selector_figure_active_now)) {
 			arr_fig[i]->get_max_min(arr_max_min_for_passiv_figure);
 			if ((min_x_act < max_x_pas) && (max_y_act > min_y_pas) &&
@@ -236,20 +230,35 @@ bool test_of_meet(void) {
 				(min_x_act < max_x_pas) && (max_y_act > min_y_pas)){
 				arr_fig[selector_figure_active_now]->control_crush(true);
 				arr_fig[i]->control_crush(true);
-				cout << " bingoc 4 " << endl;
+				cout << " bingo 4 " << endl;
 			}
 			else {
 				arr_fig[selector_figure_active_now]->control_crush(false);
 				arr_fig[i]->control_crush(false);
 			}
-
-
 		}
-
 	}
 	return true;
 }
 
+void check_on_unit(void) {
+	if (check_figure_unit) {
+		search_number_first_empty();
+		arr_fig[number_first_empty] = new figure_unit;
+		arr_fig[number_first_empty]->add_figure(arr_fig[selector_figure_active_now]);
+		arr_fig[selector_figure_active_now] = NULL;
+		selector_figure_active_now = number_first_empty;
+		check_figure_unit = false;
+	}
+	else {
+		arr_fig[number_first_empty]->add_figure(arr_fig[selector_figure_active_now]);
+		arr_fig[selector_figure_active_now] = NULL;
+		selector_figure_active_now = number_first_empty;
+	}
+	
+}
+
+int count_quantity = 0;//общее количество объектов
 void special_key(int s_key, int m, int z) {
 	int x = 0, y = 0;
 	switch (s_key) {
@@ -269,8 +278,19 @@ void special_key(int s_key, int m, int z) {
 		glutPostRedisplay();
 		break;
 	case GLUT_KEY_F5:
-		search_number_first_empty();
-		arr_fig[number_first_empty] = new figure_unit;
+		check_on_unit();
+		break;
+	case GLUT_KEY_F6:
+		check_figure_unit = true;
+		break;
+	case GLUT_KEY_F7:
+		count_quantity = 0;
+		for (int i = 0; i < figure::general_quantity_of_figure; i++) {
+			if (arr_fig[i] != NULL) {
+				count_quantity++;
+			}
+		}
+		cout << " count_quantity " << count_quantity << endl;
 		break;
 	case GLUT_KEY_LEFT:
 		x = -2; y = 0;
@@ -288,52 +308,25 @@ void special_key(int s_key, int m, int z) {
 		x = 0; y = 2;
 		move_with_special_key(x, y);
 		break;
-
 	}
-
 }
 
-void select(int value) {//вызов видимости
-	/*
-	* selector_figure_active_now = search_number_first_filled(selector_figure_active_now);
-	if ((selector_figure_active_now >= 0) && (selector_figure_active_now == selector_figure_from_keyboard)) {
-		//arr_fig[selector]->my_clarity(false);
-		int x_p = 0, y_p = 0;
-		arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);//выбранный
-		cout << x_p << " " << y_p << endl;
-		arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x_p, y_p);
-	}
-	else {//галочку надо спрятать и по умолчанию она спрятана
-
-	}
-
-	glutPostRedisplay();
-	glutTimerFunc(100, select, 0);
-	*/
-
-}
 void keyboard(unsigned char key, int x, int y)
 {
 	if (key == 27) exit(0); // 27 - код клавиши Esc
 	if (key == ' ') {
-		selector_figure_from_keyboard = search_number_first_filled(selector_figure_from_keyboard);
 		selector_figure_active_now = search_number_first_filled(selector_figure_active_now);
-		if ((selector_figure_active_now >= 0) && (selector_figure_active_now == selector_figure_from_keyboard)) {
-			//arr_fig[selector]->my_clarity(false);
+		if (selector_figure_active_now >= 0) {
 			int x_p = 0, y_p = 0;
 			arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);//выбранный
-			arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x_p, y_p);
+			general_check_mark.figure_move(x_p, y_p);
 		}
-		else {//галочку надо спрятать и по умолчанию она спрятана
-
-		}
-
 		glutPostRedisplay();
 	}
 }
 
 void search_number_first_empty(void) {
-	for (int i = 0; i < (figure::general_quantity_of_figure - 2); i++) {
+	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		if (arr_fig[i] == NULL) {
 			number_first_empty = i;
 			return;
@@ -344,9 +337,9 @@ void search_number_first_empty(void) {
 
 int search_number_first_filled(int start) {
 
-	for (int i = 0; i < (figure::general_quantity_of_figure - 2); i++) {
+	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		start++;
-		if (start >= (figure::general_quantity_of_figure - 2)) {
+		if (start >= figure::general_quantity_of_figure) {
 			start = 0;
 		}
 		if (arr_fig[start] != NULL) {
@@ -357,28 +350,20 @@ int search_number_first_filled(int start) {
 }
 
 void start_filled_figure(void) {
-	for (int i = 0; i < (figure::general_quantity_of_figure - 1); i++) {
+	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		if (arr_fig[i] != NULL) {
 			selector_figure_active_now = i;
 		}
 	}
 	if (selector_figure_active_now >= 0) {
-		//arr_fig[selector]->my_clarity(false);
 		int x_p = 0, y_p = 0;
 		arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);//выбранный
-		arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x_p, y_p);
+		general_check_mark.figure_move(x_p, y_p);
 	}
 	glutPostRedisplay();
 }
 
 //menu
-void processMenuStatus(int status, int x, int y) {
-	if (status == GLUT_MENU_IN_USE)
-		menuFlag = true;
-	else
-		menuFlag = false;
-}
-
 void create_figure_main_menu(void) {
 	type_of_figure = glutCreateMenu(type_of_figure_func);
 	glutAddMenuEntry("   circle  ", select_circle);
@@ -410,8 +395,6 @@ void create_figure_main_menu(void) {
 	glutAddSubMenu("     clarity     ", clarity_of_figure);
 	// прикрепить меню к правой кнопке
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-	//статус активности меню
-	glutMenuStatusFunc(processMenuStatus);
 }
 
 void type_of_figure_func(int value) {
@@ -421,23 +404,18 @@ void type_of_figure_func(int value) {
 		case select_circle:
 			arr_fig[number_first_empty] = new figure_circle;
 			break;
-
 		case select_line:
 			arr_fig[number_first_empty] = new figure_line;
 			break;
-
 		case select_star:
 			arr_fig[number_first_empty] = new figure_star;
 			break;
-
 		case select_triangle:
 			arr_fig[number_first_empty] = new figure_triangle;
 			break;
-
 		case select_square:
 			arr_fig[number_first_empty] = new figure_square;
 			break;
-
 		default:
 			cout << "live is pain" << endl;
 			break;
@@ -448,7 +426,6 @@ void type_of_figure_func(int value) {
 	else {
 		cout << " game over :) " << endl;
 	}
-
 }
 
 void color_of_figure_func(int value) {
@@ -456,7 +433,6 @@ void color_of_figure_func(int value) {
 	case select_light_green:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_light_green);
 		break;
-
 	case select_pink:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_pink);
 		break;
@@ -466,25 +442,21 @@ void color_of_figure_func(int value) {
 	case select_dark_blue:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_dark_blue);
 		break;
-
 	case select_turquoise:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_turquoise);
 		break;
 	case select_dark_green:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_dark_green);
 		break;
-
 	case select_light_blue:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_light_blue);
 		break;
 	case select_purple:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_purple);
 		break;
-
 	case select_yellow:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_yellow);
 		break;
-
 	case select_swampy:
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_swampy);
 		break;
@@ -492,7 +464,6 @@ void color_of_figure_func(int value) {
 		cout << "static live is pain" << endl;
 		break;
 	}
-
 	glFlush();
 	glutPostRedisplay();
 }
@@ -502,7 +473,6 @@ void fill_of_figure_func(int value) {
 	case select_fill:
 		arr_fig[selector_figure_active_now]->active_figure_fill(select_fill);
 		break;
-
 	case select_empty:
 		arr_fig[selector_figure_active_now]->active_figure_fill(select_empty);
 		break;
@@ -519,7 +489,6 @@ void clarity_of_figure_func(int value) {
 	case select_view:
 		arr_fig[selector_figure_active_now]->active_figure_clarity(select_view);
 		break;
-
 	case select_hidden:
 		arr_fig[selector_figure_active_now]->active_figure_clarity(select_hidden);
 		break;

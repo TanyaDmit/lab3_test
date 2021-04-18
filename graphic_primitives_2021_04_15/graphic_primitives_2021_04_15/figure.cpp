@@ -28,6 +28,8 @@ void figure::range_min_and_max(void) {}
 
 void figure::control_crush(bool) {}
 
+void figure::add_figure(figure*) {}
+
 figure::figure(void) {
 	int byte = 16;
 	my_number++;

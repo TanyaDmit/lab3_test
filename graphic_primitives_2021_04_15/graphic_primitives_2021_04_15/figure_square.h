@@ -1,6 +1,6 @@
 #pragma once
-#include "figure.h"
-class figure_square : public figure {
+#include "figure_unit.h"
+class figure_square : public figure_unit {
 private:
 	static const int quantity_of_point = 4;
 	int array_x[quantity_of_point];

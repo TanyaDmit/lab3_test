@@ -19,6 +19,7 @@ public:
 	virtual void active_figure_fill(int);
 	virtual void active_figure_clarity(int);
 	virtual void control_crush(bool);
+	virtual void add_figure(figure*);
 	void get_max_min(int*);
 protected:
 	int max_x, max_y, min_x, min_y;

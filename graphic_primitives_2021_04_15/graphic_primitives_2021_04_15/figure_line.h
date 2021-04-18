@@ -1,6 +1,6 @@
 #pragma once
-#include "figure.h"
-class figure_line : public figure {
+#include "figure_unit.h"
+class figure_line : public figure_unit {
 private:
 	static const int quantity_of_point = 2;
 	

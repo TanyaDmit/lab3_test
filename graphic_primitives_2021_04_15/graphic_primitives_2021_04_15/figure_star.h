@@ -1,8 +1,8 @@
 #pragma once
-#include "figure.h"
+#include "figure_unit.h"
 #include <math.h>
 
-class figure_star : public figure {
+class figure_star : public figure_unit {
 private:
 	static const int quantity_of_point = 12;
 	void coordinates_calculate(void);
