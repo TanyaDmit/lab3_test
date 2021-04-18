@@ -30,7 +30,7 @@ void figure::control_crush(bool) {}
 
 void figure::add_figure(figure*) {}
 
-void figure::set_parameters(string){}
+void figure::return_to_start_position(void) {}
 
 string figure::get_parameters(void){
 	return "";

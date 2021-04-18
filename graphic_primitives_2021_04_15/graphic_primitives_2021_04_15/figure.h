@@ -22,7 +22,7 @@ public:
 	virtual void active_figure_clarity(int);
 	virtual void control_crush(bool);
 	virtual void add_figure(figure*);
-	virtual void set_parameters(string);
+	virtual void return_to_start_position(void);
 	virtual string get_parameters(void);
 	void get_max_min(int*);
 protected:
@@ -33,6 +33,7 @@ protected:
 	bool figure_crush;
 	int figure_color[3];
 	int figure_color_select[3] = { 0,0,0 };
+	int figure_color_crush[3] = { 255,126,0 };
 	virtual void crush_of_figure(void);
 	virtual void coordinates_calculate(void);
 	virtual void initialization_array(void);

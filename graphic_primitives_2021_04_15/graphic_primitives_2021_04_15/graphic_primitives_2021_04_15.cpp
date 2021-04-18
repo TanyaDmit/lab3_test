@@ -312,6 +312,7 @@ void check_on_unit(void) {
 int count_quantity = 0;//общее количество объектов
 void special_key(int s_key, int m, int z) {
 	int x = 0, y = 0;
+	int x_p_f = 0, y_p_f = 0;
 	switch (s_key) {
 	case GLUT_KEY_F1:
 		//вывод всех возможностей в консоль
@@ -329,7 +330,6 @@ void special_key(int s_key, int m, int z) {
 			ofstream fout(file_name);
 			for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 				if (arr_fig[i] != NULL) {
-					cout << " here " << endl;
 					fout << arr_fig[i]->get_parameters() << endl;
 				}
 			}
@@ -354,6 +354,12 @@ void special_key(int s_key, int m, int z) {
 		break;
 	case GLUT_KEY_F8:
 		arr_fig[selector_figure_active_now] = NULL;
+		glutPostRedisplay();
+		break;
+	case GLUT_KEY_F9:
+		arr_fig[selector_figure_active_now]->return_to_start_position();
+		arr_fig[selector_figure_active_now]->figure_position(x_p_f, y_p_f);
+		general_check_mark.figure_move(x_p_f, y_p_f);
 		glutPostRedisplay();
 		break;
 	case GLUT_KEY_LEFT:

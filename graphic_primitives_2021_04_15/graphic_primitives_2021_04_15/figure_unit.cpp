@@ -56,6 +56,26 @@ void figure_unit::figure_position_for_track(int& x, int& y) {
 	}
 }
 
-void figure_unit::active_figure_paint(int) {
+void figure_unit::active_figure_paint(int num_col) {
+	for (int i = 0; i < quantity_of_object; i++) {
+		if (arr_unit[i] != NULL) {
+			arr_unit[i]->active_figure_paint(num_col);
+		}
+	}
+}
 
+void figure_unit::active_figure_fill(int num_fill) {
+	for (int i = 0; i < quantity_of_object; i++) {
+		if (arr_unit[i] != NULL) {
+			arr_unit[i]->active_figure_fill(num_fill);
+		}
+	}
+}
+
+void figure_unit::active_figure_clarity(int num_cl) {
+	for (int i = 0; i < quantity_of_object; i++) {
+		if (arr_unit[i] != NULL) {
+			arr_unit[i]->active_figure_clarity(num_cl);
+		}
+	}
 }

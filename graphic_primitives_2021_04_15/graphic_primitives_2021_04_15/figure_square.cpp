@@ -63,7 +63,7 @@ void figure_square::figure_draw(void) {
 		}
 		else {
 			glLineWidth(3);//толщина линии
-			glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
+			glColor3ub(figure_color_crush[0], figure_color_crush[1], figure_color_crush[2]);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			if (figure_fill) {
 				glBegin(GL_TRIANGLE_FAN);
@@ -139,11 +139,9 @@ void figure_square::figure_position_for_track(int& x, int& y) {
 }
 
 void figure_square::active_figure_paint(int num_color) {
-	int byte = 16;
-	for (int i = 0; i < 3; i++) {
-		figure_color[i] = class_for_color::get_color(num_color) >> byte;
-		byte -= 8;
-	}
+	figure_color[2] = 0xff & class_for_color::get_selected_color(num_color);
+	figure_color[1] = 0xff & (class_for_color::get_selected_color(num_color) >> 8);
+	figure_color[0] = 0xff & (class_for_color::get_selected_color(num_color) >> 16);
 }
 
 void figure_square::active_figure_fill(int switch_fill) {
@@ -173,4 +171,11 @@ string figure_square::get_parameters(void) {//отдать
 	str += figure_clarity ? "1 " : "0 ";
 	str += figure_fill ? "1 " : "0 ";
 	return str;
+}
+
+void figure_square::return_to_start_position(void) {
+	for (int i = 0; i < quantity_of_point; i++) {
+		array_x_move[i] = array_x[i];
+		array_y_move[i] = array_y[i];
+	}
 }

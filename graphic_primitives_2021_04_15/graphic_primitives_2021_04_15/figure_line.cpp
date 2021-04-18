@@ -43,14 +43,23 @@ void figure_line::figure_draw(void) {
 	}
 	else {
 		glLineWidth(5);//толщина линии
-		glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
-
-		glBegin(GL_LINES);
-		for (int i = 0; i < quantity_of_point; i++) {
-			glVertex2d(array_x_move[i], array_y_move[i]);
+		if (!figure_crush) {
+			glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
+			glBegin(GL_LINES);
+			for (int i = 0; i < quantity_of_point; i++) {
+				glVertex2d(array_x_move[i], array_y_move[i]);
+			}
+			glEnd();
 		}
-
-		glEnd();
+		else {
+			glColor3ub(figure_color_crush[0], figure_color_crush[1], figure_color_crush[2]);
+			glBegin(GL_LINES);
+			for (int i = 0; i < quantity_of_point; i++) {
+				glVertex2d(array_x_crush[i], array_y_crush[i]);
+			}
+			glEnd();
+		}
+		
 	}
 	if (!figure_clarity) {
 		glDisable(GL_BLEND);
@@ -61,6 +70,23 @@ void figure_line::figure_draw(void) {
 void figure_line::figure_move(int x, int y) {
 	class_for_range::move_max_min_int(array_x_move, &max_x, &min_x, quantity_of_point, x);
 	class_for_range::move_max_min_int(array_y_move, &max_y, &min_y, quantity_of_point, y);
+}
+
+void figure_line::crush_of_figure(void) {
+	array_x_crush[0] = array_x_move[1];
+	array_y_crush[0] = array_y_move[1];
+	array_x_crush[1] = array_x_move[0] + delta_y;
+	array_y_crush[1] = array_y_move[0] + delta_x;
+}
+
+void figure_line::control_crush(bool flag) {
+	if (flag) {
+		figure_crush = true;
+		crush_of_figure();
+	}
+	else {
+		figure_crush = false;
+	}
 }
 
 void figure_line::initialization_array(void) {
@@ -87,11 +113,9 @@ void figure_line::figure_position_for_track(int& x, int& y) {
 }
 
 void figure_line::active_figure_paint(int num_color) {
-	int byte = 16;
-	for (int i = 0; i < 3; i++) {
-		figure_color[i] = class_for_color::get_color(num_color) >> byte;
-		byte -= 8;
-	}
+	figure_color[2] = 0xff & class_for_color::get_selected_color(num_color);
+	figure_color[1] = 0xff & (class_for_color::get_selected_color(num_color) >> 8);
+	figure_color[0] = 0xff & (class_for_color::get_selected_color(num_color) >> 16);
 }
 
 void figure_line::active_figure_fill(int switch_fill) {
@@ -119,4 +143,11 @@ string figure_line::get_parameters(void) {//отдать
 	str += figure_clarity ? "1 " : "0 ";
 	str += figure_fill ? "1 " : "0 ";
 	return str;
+}
+
+void figure_line::return_to_start_position(void) {
+	for (int i = 0; i < quantity_of_point; i++) {
+		array_x_move[i] = array_x[i];
+		array_y_move[i] = array_y[i];
+	}
 }
