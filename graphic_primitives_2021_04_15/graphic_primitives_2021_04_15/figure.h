@@ -1,6 +1,6 @@
 #pragma once
-#include <iostream>
 #include <GL/freeglut.h>
+#include <iostream>
 #include "class_for_color.h"
 #include "class_for_range.h"
 

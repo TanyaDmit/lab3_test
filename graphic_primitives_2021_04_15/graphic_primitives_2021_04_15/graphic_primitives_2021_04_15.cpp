@@ -13,6 +13,7 @@
 #include "class_for_color.h"
 #include "figure_check_mark.h"
 #include "figure_point.h"
+#include "figure_unit.h"
 
 using namespace std;
 
@@ -266,6 +267,10 @@ void special_key(int s_key, int m, int z) {
 	case GLUT_KEY_F4:
 		arr_fig[selector_figure_active_now] = NULL;
 		glutPostRedisplay();
+		break;
+	case GLUT_KEY_F5:
+		search_number_first_empty();
+		arr_fig[number_first_empty] = new figure_unit;
 		break;
 	case GLUT_KEY_LEFT:
 		x = -2; y = 0;
