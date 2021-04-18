@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
 	glClearColor(1, 1, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glutAttachMenu(GLUT_LEFT_BUTTON);;
+	glutAttachMenu(GLUT_LEFT_BUTTON);//для разблокировки клавиатуры
 	{
 		arr_fig[9] = new figure_check_mark;
 		arr_fig[8] = new figure_point;
@@ -137,18 +137,21 @@ void general_draw(void) {
 	glutSwapBuffers();
 }
 
+bool test_of_meet_figure = false;
+
 void move_without_track(int value) {
 	int x = 0, y = 0;
 	if (counter_for_move != max_quantity_move) {
 		x = -5 + rand() % 5;
 		y = -2 + rand() % 5;
+		test_of_meet_figure = test_of_meet();
 		arr_fig[selector_figure_active_now]->figure_move(x, y);
 		int x_p = 0, y_p = 0;
 		arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);
 		x += x_p;
 		y += y_p;
 		arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
-		test_of_meet();
+		
 		glutPostRedisplay();
 		glutTimerFunc(1000, move_without_track, 0);
 		counter_for_move++;
@@ -161,6 +164,7 @@ void move_with_track(int value) {
 	if (counter_for_move != max_quantity_move) {
 		x = -5 + rand() % 5;
 		y = -2 + rand() % 5;
+		test_of_meet_figure = test_of_meet();
 		arr_fig[selector_figure_active_now]->figure_move(x, y);
 		int x_p = 0, y_p = 0;
 		int x_p_for_track = 0, y_p_for_track = 0;
@@ -170,7 +174,7 @@ void move_with_track(int value) {
 		y += y_p;
 		arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
 		arr_fig[(figure::general_quantity_of_figure - 2)]->figure_move(x_p_for_track, y_p_for_track);
-		test_of_meet();
+		
 		glutPostRedisplay();
 		glutTimerFunc(1000, move_with_track, 0);
 		counter_for_move++;
@@ -178,14 +182,15 @@ void move_with_track(int value) {
 }
 
 void move_with_special_key(int x, int y) {
-
+	test_of_meet_figure = test_of_meet();
+	//arr_fig[selector_figure_active_now]->control_crush(test_of_meet_figure);
 	arr_fig[selector_figure_active_now]->figure_move(x, y);
 	int x_p = 0, y_p = 0;
 	arr_fig[selector_figure_active_now]->figure_position(x_p, y_p);
 	x += x_p;
 	y += y_p;
 	arr_fig[(figure::general_quantity_of_figure - 1)]->figure_move(x, y);
-	test_of_meet();
+	
 	glutPostRedisplay();
 }
 
@@ -207,18 +212,34 @@ bool test_of_meet(void) {
 			arr_fig[i]->get_max_min(arr_max_min_for_passiv_figure);
 			if ((min_x_act < max_x_pas) && (max_y_act > min_y_pas) &&
 				(max_x_act > min_x_pas) && (min_y_act < max_y_pas)) {
+				arr_fig[selector_figure_active_now]->control_crush(true);
+				arr_fig[i]->control_crush(true);
 				cout << " bingo 1 " << endl;
+				return true;
 			}
 			else if ((min_x_act < max_x_pas) && (min_y_act < max_y_pas) &&
-				(max_x_act > min_x_pas) && (max_y_act > min_y_pas))
+				(max_x_act > min_x_pas) && (max_y_act > min_y_pas)) {
+				arr_fig[selector_figure_active_now]->control_crush(true);
+				arr_fig[i]->control_crush(true);
 				cout << " bingo 2 " << endl;
+				return true;
+			}
 			else if ((max_x_act > min_x_pas) && (max_y_act > min_y_pas) &&
-				(min_x_act < max_x_pas) && (min_y_act < max_y_pas))
+				(min_x_act < max_x_pas) && (min_y_act < max_y_pas)) {
+				arr_fig[selector_figure_active_now]->control_crush(true);
+				arr_fig[i]->control_crush(true);
 				cout << " bingo 3 " << endl;
+				return true;
+			}
 			else if ((max_x_act > min_x_pas) && (min_y_act < max_y_pas) &&
-				(min_x_act < max_x_pas) && (max_y_act > min_y_pas))
-			{
+				(min_x_act < max_x_pas) && (max_y_act > min_y_pas)){
+				arr_fig[selector_figure_active_now]->control_crush(true);
+				arr_fig[i]->control_crush(true);
 				cout << " bingoc 4 " << endl;
+			}
+			else {
+				arr_fig[selector_figure_active_now]->control_crush(false);
+				arr_fig[i]->control_crush(false);
 			}
 
 

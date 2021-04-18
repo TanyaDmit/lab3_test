@@ -7,9 +7,12 @@ private:
 	int array_y[quantity_of_point];
 	int array_x_move[quantity_of_point];
 	int array_y_move[quantity_of_point];
+	int array_x_crush[(quantity_of_point + 1)];
+	int array_y_crush[(quantity_of_point + 1)];
 	int delta_x = 15, delta_y = 15;
 	void initialization_array(void);
 	void coordinates_calculate(void);
+	void crush_of_figure(void);
 public:
 	figure_square(int*, bool, bool);
 	figure_square(void);
@@ -20,5 +23,6 @@ public:
 	void active_figure_paint(int);
 	void active_figure_fill(int);
 	void active_figure_clarity(int);
+	void control_crush(bool);
 };
 

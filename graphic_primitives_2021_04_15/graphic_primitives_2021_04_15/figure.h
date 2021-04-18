@@ -18,6 +18,7 @@ public:
 	virtual void active_figure_paint(int);
 	virtual void active_figure_fill(int);
 	virtual void active_figure_clarity(int);
+	virtual void control_crush(bool);
 	void get_max_min(int*);
 protected:
 	int max_x, max_y, min_x, min_y;
@@ -25,8 +26,10 @@ protected:
 	bool need_of_calculation;
 	bool need_to_select;
 	bool figure_fill;
+	bool figure_crush;
 	int figure_color[3];
 	int figure_color_select[3] = { 0,0,0 };
+	virtual void crush_of_figure(void);
 	virtual void coordinates_calculate(void);
 	virtual void initialization_array(void);
 

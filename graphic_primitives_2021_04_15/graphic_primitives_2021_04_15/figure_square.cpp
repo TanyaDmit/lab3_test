@@ -42,20 +42,42 @@ void figure_square::figure_draw(void) {
 		glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
 	}
 	else {
-		glLineWidth(3);//толщина линии
-		glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
+		if (!figure_crush) {
+			glLineWidth(3);//толщина линии
+			glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
 
-		if (figure_fill) {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			if (figure_fill) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			else {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			glBegin(GL_QUADS);
+			for (int i = 0; i < quantity_of_point; i++) {
+				glVertex2d(array_x_move[i], array_y_move[i]);
+			}
+			glEnd();
 		}
 		else {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glLineWidth(3);//толщина линии
+			glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			if (figure_fill) {
+				glBegin(GL_TRIANGLE_FAN);
+				for (int i = 0; i < (quantity_of_point + 1); i++) {
+					glVertex2d(array_x_crush[i], array_y_crush[i]);
+				}
+				glEnd();
+			}
+			else {
+				glBegin(GL_LINE_LOOP);
+				for (int i = 1; i < (quantity_of_point + 1); i++) {
+					glVertex2d(array_x_crush[i], array_y_crush[i]);
+				}
+				glEnd();
+			}
 		}
-		glBegin(GL_QUADS);
-		for (int i = 0; i < quantity_of_point; i++) {
-			glVertex2d(array_x_move[i], array_y_move[i]);
-		}
-		glEnd();
+		
 	}
 	if (!figure_clarity) {
 		glDisable(GL_BLEND);
@@ -67,6 +89,27 @@ void figure_square::figure_draw(void) {
 void figure_square::figure_move(int x, int y) {
 	class_for_range::move_max_min_int(array_x_move, &max_x, &min_x, quantity_of_point, x);
 	class_for_range::move_max_min_int(array_y_move, &max_y, &min_y, quantity_of_point, y);
+}
+
+void figure_square::crush_of_figure(void) {
+	for (int i = 0; i < (quantity_of_point - 1); i++) {
+		array_x_crush[i] = array_x_move[i];
+		array_y_crush[i] = array_y_move[i];
+	}
+	array_x_crush[3] = array_x_move[0] + delta_x / 2;
+	array_y_crush[3] = array_y_move[0] + delta_y;
+	array_x_crush[4] = array_x_move[0];
+	array_y_crush[4] = array_y_move[1] + delta_y / 2;
+}
+
+void figure_square::control_crush(bool flag) {
+	if (flag) {
+		figure_crush = true;
+		crush_of_figure();
+	}
+	else {
+		figure_crush = false;
+	}
 }
 
 void figure_square::initialization_array(void) {

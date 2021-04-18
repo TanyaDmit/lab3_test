@@ -56,24 +56,46 @@ void figure_star::figure_draw(void) {
 		glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
 	}
 	else {
-		glLineWidth(3);//толщина линии
-		glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		if (figure_fill) {
-			glBegin(GL_TRIANGLE_FAN);
-			for (int i = 0; i < quantity_of_point; i++) {
-				glVertex2d(array_x_move[i], array_y_move[i]);
+		if (!figure_crush) {
+			glLineWidth(3);//толщина линии
+			glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			if (figure_fill) {
+				glBegin(GL_TRIANGLE_FAN);
+				for (int i = 0; i < quantity_of_point; i++) {
+					glVertex2d(array_x_move[i], array_y_move[i]);
+				}
+				glEnd();
 			}
-			glEnd();
+			else {
+				glBegin(GL_LINE_LOOP);
+				for (int i = 1; i < quantity_of_point; i++) {
+					glVertex2d(array_x_move[i], array_y_move[i]);
+				}
+				glEnd();
+			}
 		}
 		else {
-			glBegin(GL_LINE_LOOP);
-			for (int i = 1; i < quantity_of_point; i++) {
-				glVertex2d(array_x[i], array_y[i]);
+			glLineWidth(3);//толщина линии
+			glColor3ub(figure_color[0], figure_color[1], figure_color[2]);//тоже надо будет менять
+			
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			if (figure_fill) {
+				glBegin(GL_TRIANGLE_FAN);
+				for (int i = 0; i < (quantity_of_point-1); i++) {
+					glVertex2d(array_x_crush[i], array_y_crush[i]);
+				}
+				glEnd();
 			}
-			glEnd();
+			else {
+				glBegin(GL_LINE_LOOP);
+				for (int i = 1; i < (quantity_of_point-1); i++) {
+					glVertex2d(array_x_crush[i], array_y_crush[i]);
+				}
+				glEnd();
+			}
 		}
+		
 	}
 	if (!figure_clarity) {
 		glDisable(GL_BLEND);
@@ -103,6 +125,28 @@ void figure_star::figure_position(int& x, int& y) {
 void figure_star::figure_position_for_track(int& x, int& y) {
 	x = array_x_move[1];
 	y = array_y_move[1];
+}
+
+void figure_star::crush_of_figure(void) {
+	for (int i = 0, j = 0; i < quantity_of_point; i++) {
+		if (i != 2) {
+			array_x_crush[j] = array_x_move[i];
+			array_y_crush[j] = array_y_move[i];
+			j++;
+		}
+		
+	}
+	cout << endl;
+}
+
+void figure_star::control_crush(bool flag) {
+	if (flag) {
+		figure_crush = true;
+		crush_of_figure();
+	}
+	else {
+		figure_crush = false;
+	}
 }
 
 void figure_star::active_figure_paint(int num_color) {

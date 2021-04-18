@@ -10,9 +10,12 @@ private:
 	float array_y[quantity_of_point];
 	float array_x_move[quantity_of_point];
 	float array_y_move[quantity_of_point];
+	float array_x_crush[(quantity_of_point-1)];
+	float array_y_crush[(quantity_of_point-1)];
 	float radius = 10;
 	float radius_small = 4;
 	void initialization_array(void);
+	void crush_of_figure(void);
 public:
 	figure_star(int*, bool, bool);
 	figure_star(void);
@@ -23,5 +26,6 @@ public:
 	void active_figure_paint(int);
 	void active_figure_fill(int);
 	void active_figure_clarity(int);
+	void control_crush(bool);
 };
 

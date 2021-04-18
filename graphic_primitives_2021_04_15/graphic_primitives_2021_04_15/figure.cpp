@@ -22,6 +22,12 @@ void figure::active_figure_fill(int) {}
 
 void figure::active_figure_clarity(int) {}
 
+void figure::crush_of_figure(void) {}
+
+void figure::range_min_and_max(void) {}
+
+void figure::control_crush(bool) {}
+
 figure::figure(void) {
 	int byte = 16;
 	my_number++;
@@ -33,6 +39,8 @@ figure::figure(void) {
 	need_of_calculation = true;
 	need_to_select = false;
 	figure_fill = true;
+	figure_crush = false;
+	max_x = 0; max_y = 0; min_x = 0; min_y=0;
 }
 
 void figure::activ_selected(bool choise) {
