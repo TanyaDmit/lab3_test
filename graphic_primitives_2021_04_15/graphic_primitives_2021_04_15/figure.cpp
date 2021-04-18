@@ -30,6 +30,12 @@ void figure::control_crush(bool) {}
 
 void figure::add_figure(figure*) {}
 
+void figure::set_parameters(string){}
+
+string figure::get_parameters(void){
+	return "";
+}
+
 figure::figure(void) {
 	int byte = 16;
 	my_number++;
@@ -39,19 +45,9 @@ figure::figure(void) {
 	}
 	figure_clarity = true;
 	need_of_calculation = true;
-	need_to_select = false;
 	figure_fill = true;
 	figure_crush = false;
 	max_x = 0; max_y = 0; min_x = 0; min_y=0;
-}
-
-void figure::activ_selected(bool choise) {
-	if (choise) {
-		need_to_select = true;
-	}
-	else {
-		need_to_select = false;
-	}
 }
 
 void figure::get_max_min(int* arr_max_min) {
@@ -59,4 +55,8 @@ void figure::get_max_min(int* arr_max_min) {
 	arr_max_min[1] = max_y;
 	arr_max_min[2] = min_x;
 	arr_max_min[3] = min_y;
+}
+
+unsigned int figure::collect_color(void) {
+	return figure_color[0] +(figure_color [1]<<8)+(figure_color[2]<<16);
 }

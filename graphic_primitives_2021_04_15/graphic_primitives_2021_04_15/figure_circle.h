@@ -9,9 +9,12 @@ private:
 	float array_y[quantity_of_point];
 	float array_x_move[quantity_of_point];
 	float array_y_move[quantity_of_point];
+	float array_x_crush[quantity_of_point];
+	float array_y_crush[quantity_of_point];
 	float radius = 10;
 	void coordinates_calculate(void);
 	void initialization_array(void);
+	void crush_of_figure(void);
 public:
 	figure_circle(int*, bool, bool);
 	figure_circle(void);
@@ -22,5 +25,6 @@ public:
 	void active_figure_paint(int);
 	void active_figure_fill(int);
 	void active_figure_clarity(int);
+	string get_parameters(void);
 };
 

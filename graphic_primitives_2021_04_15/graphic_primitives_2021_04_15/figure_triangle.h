@@ -25,5 +25,7 @@ public:
 	void active_figure_fill(int);
 	void active_figure_clarity(int);
 	void control_crush(bool);
+	string get_parameters(void);
+	void set_parameters(string);
 };
 

@@ -24,7 +24,7 @@ figure_square::figure_square(int* my_color, bool clar, bool paint) {
 
 figure_square::figure_square(void) {
 	initialization_array();
-	//kind_of_figure = square;
+	kind_of_figure = square;
 }
 
 
@@ -159,4 +159,15 @@ void figure_square::active_figure_clarity(int switch_view) {
 	else if (switch_view == 2) {
 		figure_clarity = true;
 	}
+}
+
+string figure_square::get_parameters(void) {//отдать
+	string str = "";
+	str += to_string(kind_of_figure) + ";";
+	str += to_string(array_x_move[0]) + ";";
+	str += to_string(array_y_move[0]) + ";";
+	str += to_string(figure::collect_color()) + ";";
+	str += figure_clarity ? "1;" : "0;";
+	str += figure_fill ? "1;" : "0;";
+	return str;
 }

@@ -21,5 +21,6 @@ public:
 	void active_figure_paint(int);
 	void active_figure_fill(int);
 	void active_figure_clarity(int);
+	string get_parameters(void);
 };
 

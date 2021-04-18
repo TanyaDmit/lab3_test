@@ -34,7 +34,7 @@ figure_circle::figure_circle(int* my_color, bool clar, bool paint) {
 
 figure_circle::figure_circle(void) {
 	initialization_array();
-	//kind_of_figure = circle;
+	kind_of_figure = circle;
 }
 
 
@@ -85,6 +85,10 @@ void figure_circle::figure_move(int x, int y) {
 	class_for_range::move_max_min_float(array_y_move, &max_y, &min_y, quantity_of_point, y);
 }
 
+void figure_circle::crush_of_figure(void) {
+
+}
+
 void figure_circle::initialization_array(void) {
 	for (int i = 0; i < quantity_of_point; i++) {
 		array_x[i] = 0;
@@ -128,4 +132,15 @@ void figure_circle::active_figure_clarity(int switch_view) {
 	else if (switch_view == 2){
 		figure_clarity = true;
 	}
+}
+
+string figure_circle::get_parameters(void) {//отдать
+	string str = "";
+	str += to_string(kind_of_figure) + ";";
+	str += to_string(round(array_x_move[0])) + ";";
+	str += to_string(round(array_y_move[0])) + ";";
+	str += to_string(figure::collect_color()) + ";";
+	str += figure_clarity ? "1;" : "0;";
+	str += figure_fill ? "1;" : "0;";
+	return str;
 }

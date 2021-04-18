@@ -21,7 +21,7 @@ figure_line::figure_line(int* my_color, bool clar) {
 
 figure_line::figure_line(void) {
 	initialization_array();
-	//kind_of_figure = line;
+	kind_of_figure = line;
 }
 
 void figure_line::figure_draw(void) {
@@ -104,4 +104,15 @@ void figure_line::active_figure_clarity(int switch_view) {
 	else if (switch_view == 2) {
 		figure_clarity = true;
 	}
+}
+
+string figure_line::get_parameters(void) {//отдать
+	string str = "";
+	str += to_string(kind_of_figure) + ";";
+	str += to_string(array_x_move[0]) + ";";
+	str += to_string(array_y_move[0]) + ";";
+	str += to_string(figure::collect_color()) + ";";
+	str += figure_clarity ? "1;" : "0;";
+	str += figure_fill ? "1;" : "0;";
+	return str;
 }

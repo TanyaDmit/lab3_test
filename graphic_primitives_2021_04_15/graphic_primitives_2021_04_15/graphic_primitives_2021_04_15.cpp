@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <GL/freeglut.h>
-#include <ctime>
+#include <string>
 #include "figure.h"
 #include "figure_circle.h"
 #include "figure_star.h"
@@ -90,11 +90,14 @@ int main(int argc, char* argv[])
 		arr_fig[5] = new figure_square;
 		arr_fig[6] = new figure_circle;
 	}
+	
+
 	start_filled_figure();
 	// #2: Регистрация функций-обработчиков событий
 	glutReshapeFunc(reshape);
 
 	glutDisplayFunc(general_draw);// для рисования/перерисовки содержимого окна
+	
 
 	glutSpecialFunc(special_key);
 	glutKeyboardFunc(keyboard);
@@ -125,9 +128,11 @@ void reshape(int width, int height)
 
 void general_draw(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//буфера цвета и глубины
+	cout << " --------------------------- " << endl;
 	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		if (arr_fig[i] != NULL) {
 			arr_fig[i]->figure_draw();
+			cout << arr_fig[i]->get_parameters() << endl;
 		}
 	}
 	general_check_mark.figure_draw();

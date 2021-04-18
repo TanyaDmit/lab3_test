@@ -16,13 +16,13 @@ figure_triangle::figure_triangle(int* my_color, bool clar, bool paint) {
 	}
 	figure_clarity = clar;
 	initialization_array();
-	//kind_of_figure = triangle;//?
+	//kind_of_figure = triangle;
 	figure_fill = paint;
 }
 
 figure_triangle::figure_triangle(void) {
 	initialization_array();
-	//kind_of_figure = triangle;
+	kind_of_figure = triangle;
 }
 
 void figure_triangle::figure_draw(void) {
@@ -42,7 +42,6 @@ void figure_triangle::figure_draw(void) {
 		if (!figure_crush) {
 			glLineWidth(3);//толщина линии
 			glColor3ub(figure_color[0], figure_color[1], figure_color[2]);
-
 			if (figure_fill) {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
@@ -74,13 +73,10 @@ void figure_triangle::figure_draw(void) {
 				glEnd();
 			}
 		}
-		
 	}
 	if (!figure_clarity) {
 		glDisable(GL_BLEND);
 	}
-
-	//glutSwapBuffers();
 }
 
 void figure_triangle::figure_move(int x, int y) {
@@ -156,4 +152,24 @@ void figure_triangle::active_figure_clarity(int switch_view) {
 	else if (switch_view == 2) {
 		figure_clarity = true;
 	}
+}
+
+string figure_triangle::get_parameters(void) {//отдать
+	string str = "";
+	str += to_string(kind_of_figure) + ";";
+	str += to_string(array_x_move[0]) + ";";
+	str += to_string(array_y_move[0]) + ";";
+	str += to_string(figure::collect_color()) + ";";
+	str += figure_clarity ? "1;" : "0;";
+	str += figure_fill ? "1;" : "0;";
+	//kind_of_figure_t;
+	//int x, y;
+	//int figure_color[3];
+	//bool figure_clarity;
+	//bool figure_fill;
+	return str;
+}
+
+void figure_triangle::set_parameters(string) {
+	//bool need_of_calculation= true;
 }
