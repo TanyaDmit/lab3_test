@@ -49,7 +49,7 @@ int search_number_first_filled(int start);
 void start_filled_figure(void);
 void move_with_special_key(int x, int y);//для движения стрелками
 bool test_of_meet(void);//для столкновения фигур
-void type_of_figure_initialization(int num, int type_fig);//для считывания из файла
+void description_general_menu(void);//для общего меню
 
 //для меню
 int type_of_figure, color_of_figure, fill_of_figure, clarity_of_figure, call_of_figure;
@@ -60,7 +60,7 @@ void fill_of_figure_func(int value);
 void clarity_of_figure_func(int value);
 void call_of_figure_func(int value) {};
 void create_figure_main_menu(void);
-enum { select_circle = 1, select_line, select_star, select_triangle, select_square };
+enum { select_circle = 1, select_line, select_star, select_triangle, select_square, select_new};
 enum {
 	select_light_green = 0, select_pink, select_lilac, select_dark_blue, select_turquoise,
 	select_dark_green, select_light_blue, select_purple, select_yellow, select_swampy
@@ -69,8 +69,9 @@ enum { select_fill, select_empty, select_view, select_hidden };
 
 int main(int argc, char* argv[])
 {
-	cout << "Hello World!\n";
-
+	cout << "Life is beautiful!\n";
+	cout << " You should click on the left mouse button to start working " << endl;
+	cout << " F1 - call general description " << endl;
 	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		arr_fig[i] = NULL;
 	}
@@ -98,7 +99,7 @@ int main(int argc, char* argv[])
 			for (int j = 0; j < 6; j++) {
 				fin >> buff[j];
 				if (fin.eof()) {
-					cout << " end of file " << endl;
+					//cout << " I did my best. " << endl;
 					end_exit = true;
 					break;
 				}
@@ -260,28 +261,28 @@ bool test_of_meet(void) {
 				(max_x_act > min_x_pas) && (min_y_act < max_y_pas)) {
 				arr_fig[selector_figure_active_now]->control_crush(true);
 				arr_fig[i]->control_crush(true);
-				cout << " bingo 1 " << endl;
+				//cout << " bingo 1 " << endl;
 				return true;
 			}
 			else if ((min_x_act < max_x_pas) && (min_y_act < max_y_pas) &&
 				(max_x_act > min_x_pas) && (max_y_act > min_y_pas)) {
 				arr_fig[selector_figure_active_now]->control_crush(true);
 				arr_fig[i]->control_crush(true);
-				cout << " bingo 2 " << endl;
+				//cout << " bingo 2 " << endl;
 				return true;
 			}
 			else if ((max_x_act > min_x_pas) && (max_y_act > min_y_pas) &&
 				(min_x_act < max_x_pas) && (min_y_act < max_y_pas)) {
 				arr_fig[selector_figure_active_now]->control_crush(true);
 				arr_fig[i]->control_crush(true);
-				cout << " bingo 3 " << endl;
+				//cout << " bingo 3 " << endl;
 				return true;
 			}
 			else if ((max_x_act > min_x_pas) && (min_y_act < max_y_pas) &&
 				(min_x_act < max_x_pas) && (max_y_act > min_y_pas)) {
 				arr_fig[selector_figure_active_now]->control_crush(true);
 				arr_fig[i]->control_crush(true);
-				cout << " bingo 4 " << endl;
+				//cout << " bingo 4 " << endl;
 			}
 			else {
 				arr_fig[selector_figure_active_now]->control_crush(false);
@@ -309,6 +310,27 @@ void check_on_unit(void) {
 
 }
 
+void description_general_menu(void) {
+	cout << " F1 - call general description " << endl;
+	cout << " F2 - move active object without track " << endl;
+	cout << " F3 - move active object with track " << endl;
+	cout << " F4 - save object(without unit) in file " << endl;
+	cout << " F5 - start to do unit " << endl;
+	cout << " F6 - end to do unit " << endl;
+	cout << " F7 - quantity objects " << endl;
+	cout << " F8 - delete object " << endl;
+	cout << " F9 - return on start position " << endl;
+	cout << " Use the arrows to move the object " << endl;
+	cout << " Pressing 'space' makes the next object active " << endl;
+	cout << " Esc allows you to exit the program " << endl;
+	cout << " Calling up the menu - clicking on the right mouse button " << endl;
+	cout << " Exit the menu - clicking on the right or on the left mouse button " << endl;
+	cout << " Create an object - the first menu item " << endl;
+	cout << " Change color - the second menu item " << endl;
+	cout << " Change fill - the third menu item " << endl;
+	cout << " Change clarity - the fourth menu item " << endl;
+}
+
 int count_quantity = 0;//общее количество объектов
 void special_key(int s_key, int m, int z) {
 	int x = 0, y = 0;
@@ -316,6 +338,7 @@ void special_key(int s_key, int m, int z) {
 	switch (s_key) {
 	case GLUT_KEY_F1:
 		//вывод всех возможностей в консоль
+		description_general_menu();
 		break;
 	case GLUT_KEY_F2:
 		counter_for_move = 0;
@@ -350,7 +373,7 @@ void special_key(int s_key, int m, int z) {
 				count_quantity++;
 			}
 		}
-		cout << " count_quantity " << count_quantity << endl;
+		cout << " quantity objects - " << count_quantity << endl;
 		break;
 	case GLUT_KEY_F8:
 		arr_fig[selector_figure_active_now] = NULL;
@@ -436,32 +459,33 @@ void start_filled_figure(void) {
 //menu
 void create_figure_main_menu(void) {
 	type_of_figure = glutCreateMenu(type_of_figure_func);
-	glutAddMenuEntry("   circle  ", select_circle);
-	glutAddMenuEntry(" line ", select_line);
-	glutAddMenuEntry("   star  ", select_star);
+	glutAddMenuEntry("  circle  ", select_circle);
+	glutAddMenuEntry("   line   ", select_line);
+	glutAddMenuEntry("   star   ", select_star);
 	glutAddMenuEntry(" triangle ", select_triangle);
-	glutAddMenuEntry(" square ", select_square);
+	glutAddMenuEntry("  square  ", select_square);
+	glutAddMenuEntry("   *new*  ", select_new);
 	color_of_figure = glutCreateMenu(color_of_figure_func);
-	glutAddMenuEntry("    light_green     ", select_light_green);
-	glutAddMenuEntry("    pink     ", select_pink);
-	glutAddMenuEntry("    lilac     ", select_lilac);
-	glutAddMenuEntry("   dark_blue  ", select_dark_blue);
+	glutAddMenuEntry("  light_green  ", select_light_green);
+	glutAddMenuEntry("      pink     ", select_pink);
+	glutAddMenuEntry("     lilac     ", select_lilac);
+	glutAddMenuEntry("   dark_blue   ", select_dark_blue);
 	glutAddMenuEntry("   turquoise   ", select_turquoise);
-	glutAddMenuEntry("   dark_green   ", select_dark_green);
-	glutAddMenuEntry("  light_blue   ", select_light_blue);
-	glutAddMenuEntry("   purple     ", select_purple);
-	glutAddMenuEntry("    yellow     ", select_yellow);
-	glutAddMenuEntry("    swampy     ", select_swampy);
+	glutAddMenuEntry("   dark_green  ", select_dark_green);
+	glutAddMenuEntry("   light_blue  ", select_light_blue);
+	glutAddMenuEntry("     purple    ", select_purple);
+	glutAddMenuEntry("     yellow    ", select_yellow);
+	glutAddMenuEntry("     swampy    ", select_swampy);
 	fill_of_figure = glutCreateMenu(fill_of_figure_func);
 	glutAddMenuEntry("    fill     ", select_fill);
 	glutAddMenuEntry("    empty    ", select_empty);
 	clarity_of_figure = glutCreateMenu(clarity_of_figure_func);
 	glutAddMenuEntry("    view     ", select_view);
-	glutAddMenuEntry("    hidden    ", select_hidden);
+	glutAddMenuEntry("   hidden    ", select_hidden);
 	call_of_figure = glutCreateMenu(call_of_figure_func);
-	glutAddSubMenu("  create object ", type_of_figure);
-	glutAddSubMenu("     color     ", color_of_figure);
-	glutAddSubMenu("     fill     ", fill_of_figure);
+	glutAddSubMenu("  create object  ", type_of_figure);
+	glutAddSubMenu("      color      ", color_of_figure);
+	glutAddSubMenu("       fill      ", fill_of_figure);
 	glutAddSubMenu("     clarity     ", clarity_of_figure);
 	// прикрепить меню к правой кнопке
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
@@ -486,8 +510,12 @@ void type_of_figure_func(int value) {
 		case select_square:
 			arr_fig[number_first_empty] = new figure_square;
 			break;
+		case select_new:
+			cout << " Sorry, I haven't been invented yet " << endl;
+			//arr_fig[number_first_empty] = new figure_*new*;
+			break;
 		default:
-			cout << "live is pain" << endl;
+			cout << " I don`t know this kind of figures " << endl;
 			break;
 		}
 		glFlush();
@@ -531,7 +559,7 @@ void color_of_figure_func(int value) {
 		arr_fig[selector_figure_active_now]->active_figure_paint(select_swampy);
 		break;
 	default:
-		cout << "static live is pain" << endl;
+		cout << " I don`t know this kind of color " << endl;
 		break;
 	}
 	glFlush();
@@ -547,7 +575,7 @@ void fill_of_figure_func(int value) {
 		arr_fig[selector_figure_active_now]->active_figure_fill(select_empty);
 		break;
 	default:
-		cout << "static live is pain" << endl;
+		cout << " I don`t know this kind of fill " << endl;
 		break;
 	}
 	glFlush();
@@ -563,7 +591,7 @@ void clarity_of_figure_func(int value) {
 		arr_fig[selector_figure_active_now]->active_figure_clarity(select_hidden);
 		break;
 	default:
-		cout << "static live is pain" << endl;
+		cout << " I don`t know this kind of clarity " << endl;
 		break;
 	}
 	glFlush();

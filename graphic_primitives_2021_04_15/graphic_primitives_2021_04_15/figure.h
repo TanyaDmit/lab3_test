@@ -10,7 +10,7 @@ using namespace std;
 class figure {
 public:
 	static const int general_quantity_of_figure = 10;
-	enum kind_of_figure_t {circle = 1, line, star, triangle, square,point, check_mark };
+	enum kind_of_figure_t {circle = 1, line, star, triangle, square,new_fig , point, check_mark };
 	kind_of_figure_t kind_of_figure;
 	virtual void figure_draw(void);
 	virtual void figure_move(int x, int y);
