@@ -137,8 +137,8 @@ void figure_circle::active_figure_clarity(int switch_view) {
 string figure_circle::get_parameters(void) {//отдать
 	string str = "";
 	str += to_string(kind_of_figure) + ";";
-	str += to_string(round(array_x_move[0])) + ";";
-	str += to_string(round(array_y_move[0])) + ";";
+	str += to_string((int)round(array_x_move[0])) + ";";
+	str += to_string((int)round(array_y_move[0])) + ";";
 	str += to_string(figure::collect_color()) + ";";
 	str += figure_clarity ? "1;" : "0;";
 	str += figure_fill ? "1;" : "0;";

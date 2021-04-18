@@ -4,6 +4,8 @@
 #include <iostream>
 #include <GL/freeglut.h>
 #include <string>
+#include <stdio.h>
+#include <fstream>
 #include "figure.h"
 #include "figure_circle.h"
 #include "figure_star.h"
@@ -24,6 +26,7 @@ int selector_figure_active_now = 0;//для мерцания и галочки �
 int counter_for_move = 0, max_quantity_move = 7;//для движения
 bool check_figure_unit = true;//для создания нового агрегата
 bool test_of_meet_figure = false;//для проверки пересечения
+char* file_name;//для файла
 
 int number_first_empty = 0;
 figure* arr_fig[figure::general_quantity_of_figure];
@@ -66,9 +69,14 @@ enum { select_fill, select_empty, select_view, select_hidden };
 int main(int argc, char* argv[])
 {
 	cout << "Hello World!\n";
+	if (argc == 2) {
+		file_name = argv[1];
+	}
+	else {
+		file_name = NULL;
+	}
 	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		arr_fig[i] = NULL;
-
 	}
 	// #1: Инициализация и создание окна GLUT
 	glutInit(&argc, argv);//инициализация GLUT
@@ -128,11 +136,9 @@ void reshape(int width, int height)
 
 void general_draw(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//буфера цвета и глубины
-	cout << " --------------------------- " << endl;
 	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
 		if (arr_fig[i] != NULL) {
 			arr_fig[i]->figure_draw();
-			cout << arr_fig[i]->get_parameters() << endl;
 		}
 	}
 	general_check_mark.figure_draw();
@@ -279,8 +285,16 @@ void special_key(int s_key, int m, int z) {
 		glutTimerFunc(1000, move_with_track, 0);
 		break;
 	case GLUT_KEY_F4:
-		arr_fig[selector_figure_active_now] = NULL;
-		glutPostRedisplay();
+		if (file_name != NULL) {
+			ofstream fout(file_name);
+			for (int i = 0; i < figure::general_quantity_of_figure; i++) {
+				if (arr_fig[i] != NULL) {
+					fout << arr_fig[i]->get_parameters() << endl;
+				}
+			}
+			fout.flush();
+			fout.close();
+		}
 		break;
 	case GLUT_KEY_F5:
 		check_on_unit();
@@ -296,6 +310,10 @@ void special_key(int s_key, int m, int z) {
 			}
 		}
 		cout << " count_quantity " << count_quantity << endl;
+		break;
+	case GLUT_KEY_F8:
+		arr_fig[selector_figure_active_now] = NULL;
+		glutPostRedisplay();
 		break;
 	case GLUT_KEY_LEFT:
 		x = -2; y = 0;
