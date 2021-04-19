@@ -69,7 +69,6 @@ enum { select_fill, select_empty, select_view, select_hidden };
 
 int main(int argc, char* argv[])
 {
-	cout << "Life is beautiful!\n";
 	cout << " You should click on the left mouse button to start working " << endl;
 	cout << " F1 - call general description " << endl;
 	for (int i = 0; i < figure::general_quantity_of_figure; i++) {
@@ -88,51 +87,59 @@ int main(int argc, char* argv[])
 
 	glutAttachMenu(GLUT_LEFT_BUTTON);//для разблокировки клавиатуры
 	int counter_for_read = 0;
+	bool availability_of_file = true;
 	if (argc == 2) {
 		unsigned int buff[6];
 		file_name = argv[1];
 		bool end_exit = false;
-		ifstream fin(file_name);
-		string str;
-		int i = 0;
-		while (!end_exit) {
-			for (int j = 0; j < 6; j++) {
-				fin >> buff[j];
-				if (fin.eof()) {
-					//cout << " I did my best. " << endl;
-					end_exit = true;
+		ifstream fin;
+		fin.open(file_name);
+		if (!fin) {
+			cout << "Can`t find this file : " << file_name;
+			availability_of_file = false;
+		}
+		else {
+			string str;
+			int i = 0;
+			while (!end_exit) {
+				for (int j = 0; j < 6; j++) {
+					fin >> buff[j];
+					if (fin.eof()) {
+						//cout << " I did my best. " << endl;
+						end_exit = true;
+						break;
+					}
+					counter_for_read++;
+				}
+				if (end_exit) {
 					break;
 				}
-				counter_for_read++;
+				switch (buff[0]) {
+				case select_circle:
+					arr_fig[i] = new figure_circle(buff[1], buff[2], buff[3], buff[4], buff[5]);
+					break;
+				case select_line:
+					arr_fig[i] = new figure_line(buff[1], buff[2], buff[3], buff[4], buff[5]);
+					break;
+				case select_star:
+					arr_fig[i] = new figure_star(buff[1], buff[2], buff[3], buff[4], buff[5]);
+					break;
+				case select_triangle:
+					arr_fig[i] = new figure_triangle(buff[1], buff[2], buff[3], buff[4], buff[5]);
+					break;
+				case select_square:
+					arr_fig[i] = new figure_square(buff[1], buff[2], buff[3], buff[4], buff[5]);
+					break;
+				default:
+					cout << " OBLOM " << endl;
+					break;
+				}
+				if (++i >= figure::general_quantity_of_figure)
+					break;
 			}
-			if (end_exit) {
-				break;
-			}
-			switch (buff[0]) {
-			case select_circle:
-				arr_fig[i] = new figure_circle(buff[1], buff[2], buff[3], buff[4], buff[5]);
-				break;
-			case select_line:
-				arr_fig[i] = new figure_line(buff[1], buff[2], buff[3], buff[4], buff[5]);
-				break;
-			case select_star:
-				arr_fig[i] = new figure_star(buff[1], buff[2], buff[3], buff[4], buff[5]);
-				break;
-			case select_triangle:
-				arr_fig[i] = new figure_triangle(buff[1], buff[2], buff[3], buff[4], buff[5]);
-				break;
-			case select_square:
-				arr_fig[i] = new figure_square(buff[1], buff[2], buff[3], buff[4], buff[5]);
-				break;
-			default:
-				cout << " OBLOM " << endl;
-				break;
-			}
-			if (++i >= figure::general_quantity_of_figure)
-				break;
 		}
 	}
-	if (counter_for_read == 0) {//если нет файла
+	if ((counter_for_read == 0) ||(!availability_of_file)) {//если нет файла
 		arr_fig[0] = new figure_triangle;
 		arr_fig[1] = new figure_star;
 		arr_fig[2] = new figure_square;
@@ -314,7 +321,7 @@ void description_general_menu(void) {
 	cout << " F1 - call general description " << endl;
 	cout << " F2 - move active object without track " << endl;
 	cout << " F3 - move active object with track " << endl;
-	cout << " F4 - save object(without unit) in file " << endl;
+	cout << " F4 - save object in file " << endl;
 	cout << " F5 - start to do unit " << endl;
 	cout << " F6 - end to do unit " << endl;
 	cout << " F7 - quantity objects " << endl;
@@ -359,6 +366,7 @@ void special_key(int s_key, int m, int z) {
 			fout.flush();
 			fout.close();
 		}
+		cout << " changes saved " << endl;
 		break;
 	case GLUT_KEY_F5:
 		check_on_unit();
